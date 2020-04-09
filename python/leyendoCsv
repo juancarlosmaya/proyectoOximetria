@@ -1,0 +1,266 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Apr  6 17:06:00 2020
+
+@author: rubendiaz
+"""
+#lectura de archivos .csv
+import csv
+import numpy as np
+from numpy import genfromtxt
+import tkinter.filedialog
+import tkinter as Tk
+import matplotlib.pyplot as plt
+from scipy.signal import butter, lfilter, welch, decimate
+from scipy import mean
+import matplotlib.pyplot as plt
+
+import operator
+
+
+
+### Diseño de filtro pasa bandas 
+
+def butter_bandpass(lowcut, highcut, fs, order):
+    nyq = 0.5 * fs
+    low = lowcut / nyq
+    high = highcut / nyq
+    b, a = butter(order, [low, high], btype='band')
+    return b, a
+
+
+def butter_bandpass_filter(data, lowcut, highcut, fs, order):
+    b, a = butter_bandpass(lowcut, highcut, fs, order=order)
+    y = lfilter(b, a, data)
+    return y
+
+### Diseño de filtro pasa bajos
+
+def butter_lowpass(highcut, fs, order):
+    nyq = 0.5 * fs
+    high = highcut / nyq
+    b, a = butter(order, high, btype='low', )
+    return b, a
+
+
+def butter_lowpass_filter(data, highcut, fs, order):
+    b, a = butter_lowpass(highcut, fs, order=order)
+    y = lfilter(b, a, data)
+    return y
+
+### Diseño de filtro pasa altos
+
+def butter_highpass(lowcut, fs, order):
+    nyq = 0.5 * fs
+    high = lowcut / nyq
+    b, a = butter(order, high, btype='high' )
+    return b, a
+
+
+def butter_highpass_filter(data, lowcut, fs, order):
+    b, a = butter_highpass(lowcut, fs, order=order)
+    y = lfilter(b, a, data)
+    return y
+
+def eliminarPicos(y):
+    numeroDatos=np.size(y)
+    p=np.zeros(500)
+    
+    
+    for i in range(1,numeroDatos-1,1):
+        p[i]=min(abs(y[i]-y[i-1]), abs(y[i+1]-y[i]))
+    
+    ubicacion=1*(p>5000)
+    
+    if sum(ubicacion)>0:
+        i = list(ubicacion).index(True)
+    
+    y[i]=y[i-1]
+    return y
+
+
+
+
+
+
+def obtenerValorAcDc(senal,fs):
+    #--------------- VALOR DC -------------------
+    ## Filtro a 0.1 Hz 
+    #plt.figure()
+    #plt.plot(senal)
+    
+    senalDC = butter_lowpass_filter(senal, highcut=1, fs=fs, order=3)
+    #plt.plot(senalDC)
+    
+    # obtener valorDC
+    valorDC=np.mean(senalDC[100::])
+    senal=senal-valorDC
+    #plt.plot(senal)
+    
+    
+    
+    #plt.figure()
+    #--------------- VALOR AC -------------------
+    ## Filtro pasa altos
+    senal=butter_highpass_filter(senal, lowcut=0.3, fs=fs, order=3)
+    senal=eliminarPicos(senal)
+    #plt.plot(senal)
+    ## Filtro pasa banda de 0.1 Hz a 20 Hz
+    senal=np.hamming(np.size(senal))*senal
+    senalFiltrada = butter_bandpass_filter(senal, highcut=10, lowcut=0.25, fs=fs, order=3)
+    #plt.plot(senalFiltrada)
+    #Submuestreo, ahora la señal queda a 50 Hz
+    #plt.plot(senalFiltrada)
+    senalAC=senalFiltrada[::2]/100
+    tiempoAC=tiempo[::2]
+    fsAC = fs/2
+    
+    senalAC=senalAC[::2]
+    fsAC = fsAC/2
+    tiempoAC=tiempoAC[::2]
+    senalAC
+    
+    plt.plot(senalAC)
+    
+    # obtener y graficar la densidad espectral de potencia
+    #senalAC=np.hamming(np.size(senalAC))*senalAC
+    espectroSenalAC=welch(senalAC, fsAC, window='hanning', nperseg=125, nfft=None, detrend='constant', return_onesided=True, scaling='density', axis=-1)
+    
+    #plt.figure()
+    
+    #plt.plot(espectroSenalAC[0][0:50],espectroSenalAC[1][0:50])
+    
+    # obtener valorDC
+    indexMaxAC, valueMaxAc = max(enumerate(espectroSenalAC[1]), key=operator.itemgetter(1))
+    FrecuenciaMaxima=espectroSenalAC[0][indexMaxAC]
+    valorAC=valueMaxAc
+
+    return valorDC,valorAC,FrecuenciaMaxima
+
+
+#plt.cla()
+
+fs=100 # Frecuencia de muestreo
+
+### SElECCIÓN DE DIRECTORIO
+#directorio=Tk.filedialog.askopenfilename(filetypes=(("how code files",".csv"),("all files","*.*")))
+#print("el archivo escogido es"+directorio)
+#directorio="/Users/rubendiaz/Desktop/proyecto oximetría/python/senalPrueba.csv"
+#directorio="/Users/rubendiaz/Desktop/proyecto oximetría/python/dc+1Hz+Hz.csv"
+#directorio="/Users/rubendiaz/Desktop/proyecto oximetría/python/senal_simulada.csv"
+#directorio="/Users/rubendiaz/Desktop/proyecto oximetría/python/daos400.csv"
+#directorio="/Users/rubendiaz/Desktop/proyecto oximetría/python/datos800.csv"
+#directorio="/Users/rubendiaz/Desktop/proyecto oximetría/python/desaturacionLeonel1.csv"
+directorio="/Users/rubendiaz/Desktop/proyecto oximetría/python/desaturacionLeonel3.csv"
+
+### LECTURA DE ARCHIVO
+datosLeidos=genfromtxt(directorio, delimiter=';')
+
+### LECTURA DE SEÑALES Y CORRECCIÓN LECTURAS 'NAN'
+
+tiempo=datosLeidos[:,0]
+
+infrarojo=datosLeidos[:,2]
+while np.argwhere(np.isnan(infrarojo)).size:
+    infrarojo[np.argwhere(np.isnan(infrarojo))]=infrarojo[np.argwhere(np.isnan(infrarojo))-1]
+
+rojo=datosLeidos[:,3]
+while np.argwhere(np.isnan(rojo)).size:
+    rojo[np.argwhere(np.isnan(rojo))]=rojo[np.argwhere(np.isnan(rojo))-1]
+
+
+for x in range(0,np.size(infrarojo)-500,500):
+
+#x=11500  
+    plt.figure()
+    print("##################################################"+"Tomando las muestras entre " + str(x)+ " y "+  str(x+500))
+    print()
+    print("Tomando las muestras entre " + str(x)+ " y "+  str(x+500)) 
+    print()
+    tiempo=tiempo[x:x+500]
+    senalIR=infrarojo[x:x+500]
+    #plt.plot(senalIR)
+    #plt.title('Señal Led Infrarojo y Rojo',fontsize=20)
+    senalRojo=rojo[x:x+500]
+    #plt.plot(senalRojo)
+    
+    
+    
+
+    [valorDCIR,valorACIR,frecuenciaCardiacaHzIR]=obtenerValorAcDc(senalIR,fs)
+    
+    #print("el valor DC IR es:"+str(valorDCIR))
+    #print("el valor AC IR es: "+str(valorACIR))
+    print("la frecuencia cardíaca IR es:"+str(frecuenciaCardiacaHzIR*60))
+    #print()
+    
+    [valorDCRojo,valorACRojo,frecuenciaCardiacaHzRojo]=obtenerValorAcDc(senalRojo,fs)
+    
+    
+    #print("el valor DC Rojo es:"+str(valorDCRojo))
+    #print("el valor AC Rojo es: "+str(valorACRojo))
+    print("la frecuencia cardíaca Rojo es:"+str(frecuenciaCardiacaHzRojo*60))
+    # en instructable: frecuenci cardíaca desde IR
+    #print()
+    
+    
+    R=(valorACRojo/valorDCRojo)/(valorACIR/valorDCIR)
+    #print("el valor R es:"+str(R))
+    #print()
+    R=R/6
+    
+    spo2=110-25*R
+
+    # De instructable
+    #SpO2 = (-45.06*R + 30.354)*R + 94.845
+    print("el valor de la SpO2 es: "+str(spo2))
+    #print()
+    
+    #if spo2>94:
+    #    plt.plot(senalRojo)
+    #    plt.plot(senalIR)
+    #    print("el valor de la SpO2 baja eses: "+str(spo2))
+    
+
+
+
+
+
+
+
+#========================NOTAS=====================================================
+
+
+# #senal=decimate(senal, 2, n=None, ftype='iir', axis=-1, zero_phase=True)
+
+
+
+
+# def despike(yi,th=100):
+
+#   y = np.copy(yi) # use y = y1 if it is OK to modify input array
+#   n = len(y)
+#   x = np.arange(n)
+#   c = np.argmax(y)
+#   d = abs(np.diff(y))
+#   try:
+#     l = c - 1 - np.where(d[c-1::-1]<th)[0][0]
+#     r = c + np.where(d[c:]<th)[0][0] + 1
+#   except: # no spike, return unaltered array
+#     return y
+#   # for fit, use area twice wider then the spike
+#   if (r-l) <= 3:
+#     l -= 1
+#     r += 1
+#   s = int(round((r-l)/2.))
+#   lx = l - s
+#   rx = r + s
+#   # make a gap at spike area
+#   xgapped = np.concatenate((x[lx:l],x[r:rx]))
+#   ygapped = np.concatenate((y[lx:l],y[r:rx]))
+#   # quadratic fit of the gapped array
+#   z = np.polyfit(xgapped,ygapped,2)
+#   p = np.poly1d(z)
+#   y[l:r] = p(x[l:r])
+#   return y
