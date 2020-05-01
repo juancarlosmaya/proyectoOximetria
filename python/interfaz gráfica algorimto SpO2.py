@@ -22,6 +22,7 @@ import tkinter as Tk
 import matplotlib.pyplot as plt
 from scipy.signal import butter, lfilter, welch, decimate
 from scipy import mean
+import matplotlib.animation as animation
 
 
 import operator
@@ -394,8 +395,12 @@ def analizarCsv():
     # print("el valor de la SpO2 es:"+str(spo2))
     # print()
     
+def probando():
+    print("probando")
+    
 
 
+    
 #----------------- CONFIGURACIÓN INTERFAZ GRÁFICA
 
 root = Tk.Tk()
@@ -403,38 +408,143 @@ root.title("Clasificador Señal Ecg Normal y Fibrilacion Auricula AF")
 Tk.Label(root,text="Seleccione opcion en el Menú Archivo").pack(side=Tk.TOP)
 
 # Figura Rojo
-figura1 = Figure(figsize=(5, 3), dpi=60)
+figura1 = Figure(figsize=(12, 10 ), dpi=60)
 figuraRojo = figura1.add_subplot(211)
-figuraRojo.set_title('Señal Led Rojo',fontsize=20)
-figuraRojo.set_xlabel('Tiempo /s',fontsize=16)
-figuraRojo.set_ylabel('Voltaje /v',fontsize=16)
+figuraRojo.set_title('Señal Led Rojo',fontsize=12)
+figuraRojo.set_xlabel('Tiempo /s',fontsize=8)
+figuraRojo.set_ylabel('Voltaje /v',fontsize=8)
+
+
+# Figura Infrarojo
+#figura2 = Figure(figsize=(5, 3), dpi=60)
+figuraInfrarojo = figura1.add_subplot(212)
+figuraInfrarojo.set_title('Señal Led Infrarojo',fontsize=12)
+figuraInfrarojo.set_xlabel('Tiempo /s',fontsize=8)
+figuraInfrarojo.set_ylabel('Voltaje /v',fontsize=8)
+
 canvas1 = FigureCanvasTkAgg(figura1, master=root)
 canvas1.draw()
 canvas1.get_tk_widget().pack(side=Tk.TOP, fill=Tk.BOTH, expand=1,padx=1,pady=1)
 canvas1._tkcanvas.pack(side=Tk.TOP, fill=Tk.BOTH, expand=1,padx=1,pady=1)
 
-# Figura Infrarojo
-figura2 = Figure(figsize=(5, 3), dpi=60)
-figuraInfrarojo = figura1.add_subplot(211)
-figuraInfrarojo.set_title('Señal Led Infrarojo',fontsize=20)
-figuraInfrarojo.set_xlabel('Tiempo /s',fontsize=16)
-figuraInfrarojo.set_ylabel('Voltaje /v',fontsize=16)
-canvas2 = FigureCanvasTkAgg(figura1, master=root)
-canvas2.draw()
-canvas2.get_tk_widget().pack(side=Tk.TOP, fill=Tk.BOTH, expand=1,padx=1,pady=1)
-canvas2._tkcanvas.pack(side=Tk.TOP, fill=Tk.BOTH, expand=1,padx=1,pady=1)
 
 # Menú
 bar=Tk.Menu(root)
 fileMenu=Tk.Menu(bar,tearoff=0)
 fileMenu.add_command(label="Analizar señal via puerto serial",command=analizarSerial)
 fileMenu.add_command(label="Analizar archivo csv",command=analizarCsv)
+fileMenu.add_command(label="Analizar archivo csv",command=probando)
 fileMenu.add_command(label="Salir")
 bar.add_cascade(label="Archivo",menu=fileMenu)
 root.config(menu=bar)
 
+
+## de probando
+    
+
+
+
+
+def init():  # only required for blitting to give a clean slate.
+    print("hola")
+    global ser
+    
+    #ser.open()
+    
+    while (ser.inWaiting()==0): #Wait here until there is data
+        pass #do nothing
+    
+    sleep(3)
+    
+    while (ser.inWaiting()==0): #Wait here until there is data
+        pass #do nothing
+   
+    # Se lee el mensaje de inicio de ESP32, varias líneas
+    arduinoString=ser.readline()
+    rduinoString=ser.readline()
+    rduinoString=ser.readline()
+    rduinoString=ser.readline()
+    rduinoString=ser.readline()
+    rduinoString=ser.readline()
+    rduinoString=ser.readline()
+
+    plotRojo.set_ydata([np.nan] * len(ejeyRojo))
+    plotInfrarojo.set_ydata([np.nan] * len(ejeyInfrarojo))
+    return plotRojo, plotInfrarojo
+
+
+def animate(i):
+    
+    global ejeyRojo
+    global ejeyInfrarojo
+    global ser
+        
+    while (ser.inWaiting()==0): #Wait here until there is data
+        pass #do nothing
+    
+
+    
+    
+    ## LEER DATOS DEL PUERTO SERIAL, rojo e infrarojo se encuntran separados por una ","
+    arduinoString=ser.readline() # Read the newest output from the Arduino
+    arduinoString=arduinoString.decode('utf-8')
+    print(arduinoString)
+    dataArray = arduinoString.split(',') 
+    rojo = float( dataArray[0])            
+    infraRojo = float( dataArray[1])
+    print("rojo"+str(rojo))
+    print("infrarojo"+ str(infraRojo))
+    
+    
+    ejeyRojo=shift(ejeyRojo, -1, cval=0)
+    ejeyRojo[499]=rojo
+    
+    
+    
+    ejeyInfrarojo=shift(ejeyInfrarojo, -1, cval=0)
+    ejeyInfrarojo[499]=infraRojo
+    
+    print(ejeyInfrarojo)
+    
+    plotRojo.set_ydata(ejeyRojo)
+    plotInfrarojo.set_ydata(ejeyInfrarojo)  # update the data.
+    
+    return plotRojo,plotInfrarojo
+
+
+ejex=np.arange(0,5,0.01)
+ejeyInfrarojo=np.zeros(500)
+ejeyRojo=np.zeros(500)
+
+plotRojo, = figuraRojo.plot(ejex, 10*np.sin(ejeyInfrarojo))
+figuraRojo.set_ylim((-1,123500))
+
+plotInfrarojo, = figuraInfrarojo.plot(ejex, 10*np.sin(ejeyInfrarojo))
+figuraInfrarojo.set_ylim((-100,123500))
+
+
+#figuraInfrarojo.autoscale()
+
+ser = serial.Serial('/dev/cu.usbserial-0001', 115200)
+
+aniRojoInfrarojo = animation.FuncAnimation(
+    figura1, animate, init_func=init, interval=10, blit=True, save_count=50)
+
+
+
+
+## fin de probando
+
+
+def on_closing():
+    global ser
+    ser.close()
+    print("cerrando")
+    root.destroy()
+    
+
+root.protocol("WM_DELETE_WINDOW", on_closing)
+
 # El programa queda esperando a un evento de la GUI
 Tk.mainloop()
-        
-        
-        
+                

@@ -16,8 +16,9 @@ from scipy.signal import butter, lfilter, welch, decimate
 from scipy import mean
 import matplotlib.pyplot as plt
 
-import operator
 
+import operator
+plt.rcParams.update({'figure.max_open_warning': 0})
 
 
 ### Diseño de filtro pasa bandas 
@@ -63,6 +64,8 @@ def butter_highpass_filter(data, lowcut, fs, order):
     y = lfilter(b, a, data)
     return y
 
+
+
 def eliminarPicos(y):
     numeroDatos=np.size(y)
     p=np.zeros(500)
@@ -74,10 +77,39 @@ def eliminarPicos(y):
     ubicacion=1*(p>5000)
     
     if sum(ubicacion)>0:
+        #plt.plot(y)
         i = list(ubicacion).index(True)
-    
-    y[i]=y[i-1]
+        y[i]=y[i-1]
+        #plt.plot(y)
+        #plt.pause(0.1)
     return y
+
+def find(condition):
+    res, = np.nonzero(np.ravel(condition))
+    return res
+
+
+def freq_from_crossings(sig, fs):
+    """Estimate frequency by counting zero crossings
+    
+    Pros: Fast, accurate (increasing with data length).  Works well for long low-noise sines, square, triangle, etc.
+    
+    Cons: Doesn't work if there are multiple zero crossings per cycle, low-frequency baseline shift, noise, etc.
+    
+    """
+    # Find all indices right before a rising-edge zero crossing
+    indices = find((sig[1:] >= 0) & (sig[:-1] < 0))
+    
+    # Naive (Measures 1000.185 Hz for 1000 Hz, for instance)
+    #crossings = indices
+    
+    # More accurate, using linear interpolation to find intersample 
+    # zero-crossings (Measures 1000.000129 Hz for 1000 Hz, for instance)
+    crossings = [i - sig[i] / (sig[i+1] - sig[i]) for i in indices]
+    
+    # Some other interpolation based on neighboring points might be better. Spline, cubic, whatever
+    
+    return fs / np.average(np.diff(crossings))
 
 
 
@@ -94,21 +126,37 @@ def obtenerValorAcDc(senal,fs):
     #plt.plot(senalDC)
     
     # obtener valorDC
-    valorDC=np.mean(senalDC[100::])
+    valorDC=np.mean(senalDC[200::])
     senal=senal-valorDC
     #plt.plot(senal)
     
     
-    
+
     #plt.figure()
     #--------------- VALOR AC -------------------
     ## Filtro pasa altos
-    senal=butter_highpass_filter(senal, lowcut=0.3, fs=fs, order=3)
+    senal=butter_highpass_filter(senal, lowcut=0.5, fs=fs, order=3)
     senal=eliminarPicos(senal)
-    #plt.plot(senal)
+    
     ## Filtro pasa banda de 0.1 Hz a 20 Hz
+    
+    senalImprimir = butter_bandpass_filter(senal, highcut=5, lowcut=0.4, fs=fs, order=3)
+    plt.plot(senalImprimir)
+    #plt.plot(senalImprimir[50:-1])
+    
+    
+    #senal=np.hamming(np.size(senal))*senal
+    #senalFiltrada = butter_bandpass_filter(senal, highcut=10, lowcut=0.25, fs=fs, order=3)
+    
     senal=np.hamming(np.size(senal))*senal
-    senalFiltrada = butter_bandpass_filter(senal, highcut=10, lowcut=0.25, fs=fs, order=3)
+    senal=butter_highpass_filter(senal, lowcut=0.3, fs=fs, order=2)
+    senalFiltrada=butter_lowpass_filter(senal, highcut=5, fs=fs, order=3)
+    #plt.plot(senalFiltrada)
+    
+    #senalFiltrada = butter_bandpass_filter(senal, highcut=5, lowcut=0.4, fs=fs, order=3)
+    
+    
+    
     #plt.plot(senalFiltrada)
     #Submuestreo, ahora la señal queda a 50 Hz
     #plt.plot(senalFiltrada)
@@ -119,9 +167,8 @@ def obtenerValorAcDc(senal,fs):
     senalAC=senalAC[::2]
     fsAC = fsAC/2
     tiempoAC=tiempoAC[::2]
-    senalAC
-    
-    plt.plot(senalAC)
+ 
+   
     
     # obtener y graficar la densidad espectral de potencia
     #senalAC=np.hamming(np.size(senalAC))*senalAC
@@ -134,6 +181,7 @@ def obtenerValorAcDc(senal,fs):
     # obtener valorDC
     indexMaxAC, valueMaxAc = max(enumerate(espectroSenalAC[1]), key=operator.itemgetter(1))
     FrecuenciaMaxima=espectroSenalAC[0][indexMaxAC]
+    FrecuenciaMaxima=freq_from_crossings(senalFiltrada,100)
     valorAC=valueMaxAc
 
     return valorDC,valorAC,FrecuenciaMaxima
@@ -153,31 +201,28 @@ fs=100 # Frecuencia de muestreo
 #directorio="/Users/rubendiaz/Desktop/proyecto oximetría/python/datos800.csv"
 #directorio="/Users/rubendiaz/Desktop/proyecto oximetría/python/desaturacionLeonel1.csv"
 directorio="/Users/rubendiaz/Desktop/proyecto oximetría/python/desaturacionLeonel3.csv"
-
+print("Leyendo datos de "+directorio)
 ### LECTURA DE ARCHIVO
 datosLeidos=genfromtxt(directorio, delimiter=';')
 
 ### LECTURA DE SEÑALES Y CORRECCIÓN LECTURAS 'NAN'
-
 tiempo=datosLeidos[:,0]
-
 infrarojo=datosLeidos[:,2]
 while np.argwhere(np.isnan(infrarojo)).size:
     infrarojo[np.argwhere(np.isnan(infrarojo))]=infrarojo[np.argwhere(np.isnan(infrarojo))-1]
-
 rojo=datosLeidos[:,3]
 while np.argwhere(np.isnan(rojo)).size:
     rojo[np.argwhere(np.isnan(rojo))]=rojo[np.argwhere(np.isnan(rojo))-1]
 
 
-for x in range(0,np.size(infrarojo)-500,500):
-
+#for x in range(0,np.size(infrarojo)-500,200):
+for x in range(0,300,200):
 #x=11500  
     plt.figure()
-    print("##################################################"+"Tomando las muestras entre " + str(x)+ " y "+  str(x+500))
+    print("##################################################")
     print()
     print("Tomando las muestras entre " + str(x)+ " y "+  str(x+500)) 
-    print()
+   
     tiempo=tiempo[x:x+500]
     senalIR=infrarojo[x:x+500]
     #plt.plot(senalIR)
@@ -189,13 +234,14 @@ for x in range(0,np.size(infrarojo)-500,500):
     
 
     [valorDCIR,valorACIR,frecuenciaCardiacaHzIR]=obtenerValorAcDc(senalIR,fs)
-    
+    [valorDCRojo,valorACRojo,frecuenciaCardiacaHzRojo]=obtenerValorAcDc(senalRojo,fs)
+    plt.pause(0.1)
     #print("el valor DC IR es:"+str(valorDCIR))
     #print("el valor AC IR es: "+str(valorACIR))
     print("la frecuencia cardíaca IR es:"+str(frecuenciaCardiacaHzIR*60))
     #print()
     
-    [valorDCRojo,valorACRojo,frecuenciaCardiacaHzRojo]=obtenerValorAcDc(senalRojo,fs)
+    
     
     
     #print("el valor DC Rojo es:"+str(valorDCRojo))
@@ -211,11 +257,16 @@ for x in range(0,np.size(infrarojo)-500,500):
     R=R/6
     
     spo2=110-25*R
-
+    
     # De instructable
     #SpO2 = (-45.06*R + 30.354)*R + 94.845
     print("el valor de la SpO2 es: "+str(spo2))
     #print()
+    
+    if (abs(frecuenciaCardiacaHzIR-frecuenciaCardiacaHzRojo)>0.1) or  (frecuenciaCardiacaHzIR>4) or (frecuenciaCardiacaHzRojo>4) or (frecuenciaCardiacaHzIR<0.5) or (frecuenciaCardiacaHzRojo<0.5) or spo2<50 or spo2>99:
+        print("ERROR, NO MOSTRAR ESTOS DATOS")
+    
+    print("")
     
     #if spo2>94:
     #    plt.plot(senalRojo)
