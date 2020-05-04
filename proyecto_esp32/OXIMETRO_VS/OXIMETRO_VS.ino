@@ -1,9 +1,17 @@
+
+
 #include <arduinoFFT.h>
 #include <defs.h>
 #include <types.h>
 
 #include "Arduino.h"
 #include "Esp.h"
+
+#include <Wire.h>
+#include "MAX30105.h"
+
+MAX30105 particleSensor;
+//#define debug Serial
 
 
 arduinoFFT FFT = arduinoFFT(); /* Create FFT object */
@@ -33,6 +41,7 @@ float resultadoPasaBajos[512];            // DE FILTROS
 float resultadoPasaAltos[512];
 float resultadoPasaAltos2[512];
 float resultadoPasaBajos2[512];
+float  resultadoPasaBajos3[512];
 float imprimirPasaBajos[512];
 float imprimirPasaAltos[512];
 const uint16_t samples = 512;             // DE PSD 
@@ -65,44 +74,63 @@ void IRAM_ATTR onTimer(){
     digitalWrite(led, state);
     tiempo=millis();
     */
+    /*
     int i;
+    
     if (punteroValorSensado<512){
     
         for (i=0;i<511;i++){senalAnalizarIR[i]=senalAnalizarIR[i+1];}
         senalAnalizarIR[511]=senalIR[punteroValorSensado];
+        //senalAnalizarIR[511]=senalIR[particleSensor.getIR()];
 
         for (i=0;i<511;i++){senalAnalizarRojo[i]=senalAnalizarRojo[i+1];}
         senalAnalizarRojo[511]=senalRojo[punteroValorSensado];
+        //senalAnalizarRojo[511]=senalRojo[particleSensor.getRed()];
         
         punteroValorSensado=punteroValorSensado+1;
 
    
     }
+    */
     
 
 }
 
 
 void setup() {
-  Serial.begin(115200);
-   pinMode(led, OUTPUT);
-
-  /* Use 1st timer of 4 */
-  /* 1 tick take 1/(80MHZ/80) = 1us so we set divider 80 and count up */
-  timer = timerBegin(0, 80, true);
-
-  /* Attach onTimer function to our timer */
-  timerAttachInterrupt(timer, &onTimer, true);
-
-  /* Set alarm to call onTimer function every second 1 tick is 1us
-  => 1 second is 1000000us */
-  /* Repeat the alarm (third parameter) */
-  timerAlarmWrite(timer, 10000, true);
-
-  /* Start an alarm */
-  timerAlarmEnable(timer);
-  Serial.println("start timer");
-  tiempo=millis();
+    Serial.begin(115200);
+    pinMode(led, OUTPUT);
+    
+    // Configuración de sensor MAX30102
+    if (particleSensor.begin(Wire, I2C_SPEED_FAST) == false)
+    {
+        Serial.println("MAX30105 was not found. Please check wiring/power. ");
+        while (1);
+    }
+    byte ledBrightness = 0xFF; //Options: 0=Off to 255=50mA
+    byte sampleAverage = 2; //Options: 1, 2, 4, 8, 16, 32
+    byte ledMode = 2; //Options: 1 = Red only, 2 = Red + IR, 3 = Red + IR + Green
+    int sampleRate = 200; //Options: 50, 100, 200, 400, 800, 1000, 1600, 3200
+    int pulseWidth = 411; //Options: 69, 118, 215, 411
+    int adcRange = 16384; //Options: 2048, 4096, 8192, 16384
+    particleSensor.setup(ledBrightness, sampleAverage, ledMode, sampleRate, pulseWidth, adcRange); //Configure sensor with these settings
+    
+    // Configuración interrupción a 100 Hz
+    /* Use 1st timer of 4 */
+    /* 1 tick take 1/(80MHZ/80) = 1us so we set divider 80 and count up */
+    timer = timerBegin(0, 80, true);
+    /* Attach onTimer function to our timer */
+    timerAttachInterrupt(timer, &onTimer, true);
+    /* Set alarm to call onTimer function every second 1 tick is 1us
+    => 1 second is 1000000us */
+    /* Repeat the alarm (third parameter) */
+    timerAlarmWrite(timer, 10000, true);
+    /* Start an alarm */
+    timerAlarmEnable(timer);
+    Serial.println("start timer");
+    tiempo=millis();
+  
+  
 }
 
 void loop() {
@@ -126,79 +154,181 @@ void loop() {
   //senalRojo[100]=0;    
   //senalIR[300]=0;
   //senalRojo[300]=0;  
-
-  for (i=0;i<512;i++){senalAnalizarIR[i]=senalIR[0];}
-  for (i=0;i<512;i++){senalAnalizarRojo[i]=senalRojo[0];}
+  float valorInicialIR=0;
+  float valorInicialRojo=0;
+  delay(100);
+  particleSensor.check();
+  while (particleSensor.available()){
+    //for (i=0;i<512;i++){senalAnalizarIR[i]=senalIR[0];}
+    valorInicialIR=float(particleSensor.getFIFOIR());
+    for (i=0;i<512;i++){senalAnalizarIR[i]=valorInicialIR;}
+    Serial.println(valorInicialIR);
+    //for (i=0;i<512;i++){senalAnalizarRojo[i]=senalRojo[0];}
+    valorInicialRojo=float(particleSensor.getFIFORed());
+    for (i=0;i<512;i++){senalAnalizarRojo[i]=valorInicialRojo;}
+    particleSensor.nextSample();
+  }
 
   int tiempoTranscurrido;
   
   punteroValorSensado=0;
   tiempoTranscurrido=millis();
-
+  int muestrasRepresadas=0;
 
   while(1){
+    
+    particleSensor.check();
 
+    while (particleSensor.available()) //do we have new data?
+    {
+        punteroValorSensado=punteroValorSensado+1;
 
- 
-    tiempoTranscurrido=millis();
-    obtenerValorAcDc(senalAnalizarIR, &valorDCIR, &frecuenciaCardiacaIR, &valorACIR, &frecuenciaCardiacaPSDIR);
-    Serial.print("el tiempo transcurrido es: ");
-    int total= millis()- tiempoTranscurrido;
-    Serial.println(total);
-
+        for (i=0;i<511;i++){senalAnalizarIR[i]=senalAnalizarIR[i+1];}
+        //senalAnalizarIR[511]=senalIR[punteroValorSensado];
+        senalAnalizarIR[511]=float(particleSensor.getFIFOIR());
+        for (i=0;i<511;i++){senalAnalizarRojo[i]=senalAnalizarRojo[i+1];}
+        //senalAnalizarRojo[511]=senalRojo[punteroValorSensado];
+        senalAnalizarRojo[511]=float(particleSensor.getFIFORed());
+        
+        particleSensor.nextSample();
+        muestrasRepresadas++;    
+    }
+    //Serial.print("el número de muestras represadas fué: ");
+    //Serial.println(muestrasRepresadas);
+    muestrasRepresadas=0;
 
     
-    Serial.print("MI VALOR DC IR ES: ");
-    Serial.println(valorDCIR);
-    Serial.print("MI FRECUENCIA CARDIACA IR ES: ");
-    Serial.println(frecuenciaCardiacaIR); 
-    Serial.print("MI VALOR AC IR ES: ");
-    Serial.println(valorACIR);
-    Serial.print("MI FRECUENCIA CARDIACA PSD IR ES: ");
-    Serial.println(frecuenciaCardiacaPSDIR);
-    Serial.println("");
+    
+    /*
+    Serial.println("la señal analizada es: ");
+    for (i=0;i<512;i++){
+        Serial.print(i);
+        Serial.print(" ");
+        Serial.println(senalAnalizarIR[i]);
+    }
+    */
 
+    Serial.print("el tiempo transcurrido es: ");
+    Serial.println((millis()- tiempoTranscurrido)/1000);
+    Serial.println("");
+    //tiempoTranscurrido=millis();
+    
+    
+    obtenerValorAcDc(senalAnalizarIR, &valorDCIR, &frecuenciaCardiacaIR, &valorACIR, &frecuenciaCardiacaPSDIR);
+    
+    //Serial.print("MI VALOR DC IR ES: ");
+    //Serial.println(valorDCIR);
+    //Serial.print("MI FRECUENCIA CARDIACA IR ES: ");
+    //Serial.println(frecuenciaCardiacaIR); 
+    //Serial.print("MI VALOR AC IR ES: ");
+    //Serial.println(valorACIR);
+    //Serial.print("MI FRECUENCIA CARDIACA PSD IR ES: ");
+    //Serial.println(frecuenciaCardiacaPSDIR);
+    //Serial.println("");
+
+    Serial.print("FcIR: ");
+    Serial.print(frecuenciaCardiacaIR); 
+    Serial.print(" FcIRPSD: ");
+    Serial.println(frecuenciaCardiacaPSDIR); 
 
 
     obtenerValorAcDc(senalAnalizarRojo, &valorDCRojo, &frecuenciaCardiacaRojo, &valorACRojo, &frecuenciaCardiacaPSDRojo);
   
-    Serial.print("MI VALOR DC IR ES: ");
-    Serial.println(valorDCRojo);
-    Serial.print("MI FRECUENCIA CARDIACA IR ES: ");
-    Serial.println(frecuenciaCardiacaRojo); 
-    Serial.print("MI VALOR AC IR ES: ");
-    Serial.println(valorACRojo);
-    Serial.print("MI FRECUENCIA CARDIACA PSD IR ES: ");
+    //Serial.print("MI VALOR DC ROJO ES: ");
+    //Serial.println(valorDCRojo);
+    //Serial.print("MI FRECUENCIA CARDIACA ROJO ES: ");
+    //Serial.println(frecuenciaCardiacaRojo); 
+    //Serial.print("MI VALOR AC ROJO ES: ");
+    //Serial.println(valorACRojo);
+    //Serial.print("MI FRECUENCIA CARDIACA PSD ROJO ES: ");
+    //Serial.println(frecuenciaCardiacaPSDRojo);
+    //Serial.println("");
+    
+    Serial.print("FcR_: ");
+    Serial.print(frecuenciaCardiacaRojo); 
+    Serial.print(" FcR_PSD: ");
     Serial.println(frecuenciaCardiacaPSDRojo);
-    Serial.println("");
     
-    
+
     R=(valorACRojo/valorDCRojo)/(valorACIR/valorDCIR);
-    R=R/6;
+    R=R*3.2;
     spo2 =110-25*R;
-  
-    if ((abs(frecuenciaCardiacaIR-frecuenciaCardiacaRojo)>6) || (abs(frecuenciaCardiacaPSDIR-frecuenciaCardiacaIR)>25) || (abs(frecuenciaCardiacaPSDRojo-frecuenciaCardiacaRojo)>25) ||  (abs(frecuenciaCardiacaPSDIR-frecuenciaCardiacaPSDRojo)>25)  || (frecuenciaCardiacaIR>240) || (frecuenciaCardiacaRojo>240) or (frecuenciaCardiacaIR<30) || (frecuenciaCardiacaRojo<30) || (spo2<50) || (spo2>99) || (valorACRojo<500) || (valorACIR<500) ){
-        Serial.println("SENSANDO...");
-    }
-    else{
+    
+    //if ((abs(frecuenciaCardiacaIR-frecuenciaCardiacaRojo)>6) || (abs(frecuenciaCardiacaPSDIR-frecuenciaCardiacaIR)>25) || (abs(frecuenciaCardiacaPSDRojo-frecuenciaCardiacaRojo)>25) ||  (abs(frecuenciaCardiacaPSDIR-frecuenciaCardiacaPSDRojo)>25)  || (frecuenciaCardiacaIR>240) || (frecuenciaCardiacaRojo>240) or (frecuenciaCardiacaIR<30) || (frecuenciaCardiacaRojo<30) || (spo2<50) || (spo2>99) || (valorACRojo<500) || (valorACIR<500) ){
+    //    Serial.println("SENSANDO...");
+    //}
+    //else{
         Serial.print("SPO2= ");
         Serial.println(spo2);
+        Serial.println("");
+    //}
+    /*
+    Serial.println("la señal Roja procesada fue:");
+    for (i=0;i<512;i++){
+        Serial.print(i);
+        Serial.print(" ");
+        Serial.println(senalAnalizarRojo[i]);
     }
+    */ 
     
     
-    if (punteroValorSensado>511){
+    if (punteroValorSensado>5110){
         Serial.println("la señal Roja procesada fue:");
         for (i=0;i<512;i++){
-            Serial.print(i);
-            Serial.print(" ");
-            Serial.println(senalAnalizarRojo[i]);
+            //Serial.print(i);
+            //Serial.print(" ");
+            Serial.println(senalAnalizarIR[i]);
         } 
+        Serial.println("la senal sin nivel DC es :");
+        for (i=0;i<512;i++){
+            //Serial.print(i);
+            //Serial.print(" ");
+            Serial.println(senal[i]);
+        }
+        Serial.println("la senal con filtro pasa altos es :");
+        for (i=0;i<512;i++){
+            //Serial.print(i);
+            //Serial.print(" ");
+            Serial.println(resultadoPasaAltos[i]);
+        }
+        Serial.println("la senal con filtro pasa altos 2 es :");
+        for (i=0;i<512;i++){
+            //Serial.print(i);
+            //Serial.print(" ");
+            Serial.println(resultadoPasaAltos2[i]);
+        }
+        Serial.println("la senal con filtro pasa bajos 2 es :");
+        for (i=0;i<512;i++){
+            //Serial.print(i);
+            //Serial.print(" ");
+            Serial.println(resultadoPasaBajos2[i]);
+        }
+        Serial.println("la senal con filtro pasa bajos 3 es :");
+        for (i=0;i<512;i++){
+            //Serial.print(i);
+            //Serial.print(" ");
+            Serial.println(resultadoPasaBajos3[i]);
+        }
+        Serial.println("la senal en la pantalla OLED es :");
+        for (i=0;i<512;i++){
+            //Serial.print(i);
+            //Serial.print(" ");
+            Serial.println(imprimirPasaBajos[i]);
+        }
+            
+
+         
+
+        
+
+        /*
         Serial.println("la señal IR procesada fue:");
         for (i=0;i<512;i++){
             Serial.print(i);
             Serial.print(" ");
             Serial.println(senalAnalizarIR[i]);
         } 
+        */
         while(1){};
     }
 
@@ -300,7 +430,7 @@ void  obtenerValorAcDc(float miSenal[512], float *direccion_valorDC, float *dire
 
     ///-------------------------------------------------------------
 
-    eliminarPicos(senal);
+    //eliminarPicos(senal);
 
     ///---------------CALCULAR EL VALOR AC--------------------------    
     
@@ -353,11 +483,15 @@ void  obtenerValorAcDc(float miSenal[512], float *direccion_valorDC, float *dire
     }
     // FIN IMPRIMIR
     
+
+
     // ventana hamming 
     for ( i = 0; i < 512; i++ ) {
         resultadoPasaAltos[i]=resultadoPasaAltos[i]*hamming[i];
         //Serial.println(resultadoPasaAltos[i]);
     }
+
+
 
     // Filtro pasa altos a 0.5 Hz
     b[0]=0.96907117; b[1]=-2.90721352;  b[2]=2.90721352; b[3]=-0.96907117;
@@ -389,11 +523,48 @@ void  obtenerValorAcDc(float miSenal[512], float *direccion_valorDC, float *dire
         resultadoPasaBajos2[i] =resultadoPasaAltos2[i]*b[0]+resultadoPasaAltos2[i-1]*b[1]+resultadoPasaAltos2[i-2]*b[2]+resultadoPasaAltos2[i-3]*b[3]-(resultadoPasaBajos2[i-1]*a[1]+resultadoPasaBajos2[i-2]*a[2]+resultadoPasaBajos2[i-3]*a[3]);
     }
 
+
+    // mi ultimo filtro
+    // filtro pasa bajos a 3 Hz.
+
+    // # 3HZ
+    b[0]=0.00069935; b[1]=0.00209805;  b[2]=0.00209805; b[3]=0.00069935;
+    a[0]=1; a[1]=-2.62355181; a[2]=2.31468258; a[3]=-0.68553598;
+    //2 Hz
+    //b[0]=0.00021961; b[1]=0.00065882;  b[2]=0.00065882; b[3]=0.00021961;
+    //a[0]=1; a[1]=-2.74883581; a[2]=2.52823122; a[3]=-0.77763856;
+    resultadoPasaBajos2[0]=resultadoPasaBajos2[0]/2;
+    resultadoPasaBajos3[0]=resultadoPasaBajos2[0];
+    resultadoPasaBajos3[1]=resultadoPasaBajos2[0];
+    resultadoPasaBajos3[2]=resultadoPasaBajos2[0];
+    resultadoPasaBajos2[1]=resultadoPasaBajos2[0];
+    resultadoPasaBajos2[2]=resultadoPasaBajos2[0];
+    resultadoPasaBajos2[3]=resultadoPasaBajos2[0];
+    for ( i = 3; i < 512; i++ ) {
+        resultadoPasaBajos3[i] =resultadoPasaBajos2[i]*b[0]+resultadoPasaBajos2[i-1]*b[1]+resultadoPasaBajos2[i-2]*b[2]+resultadoPasaBajos2[i-3]*b[3]-(resultadoPasaBajos3[i-1]*a[1]+resultadoPasaBajos3[i-2]*a[2]+resultadoPasaBajos3[i-3]*a[3]);
+    }
+
+
+
+
+
+    // fin de mi último filtro 
+
+
+
+
+
+
+
+
+
+
+
     //for ( i = -1; i < 512; i++ ) {
         //Serial.println(resultadoPasaBajos2[i]);
     //}
 
-    float frecuenciaCardiaca=calculoFrecuenciaCardiaca(resultadoPasaBajos2);
+    float frecuenciaCardiaca=calculoFrecuenciaCardiaca(resultadoPasaBajos3);
     //Serial.print("El cálculo de la frecuencia cardíaca es de: ");
     //Serial.println(frecuenciaCardiaca);
 
@@ -401,7 +572,7 @@ void  obtenerValorAcDc(float miSenal[512], float *direccion_valorDC, float *dire
 
      /* Print the results of the simulated sampling according to time */
     for (i=0;i<samples;i++){
-      senal5seg[i]=resultadoPasaBajos2[i];
+      senal5seg[i]=resultadoPasaBajos3[i];
     }
   
     // submuestreo 1/2
@@ -483,7 +654,7 @@ void  obtenerValorAcDc(float miSenal[512], float *direccion_valorDC, float *dire
 
 void eliminarPicos(float senal[512]){
     
-    printf("Senal de entrada \n");
+    //printf("Senal de entrada \n");
     int i;
     for (i=0;i<512;i++){
         senalEliminandoPicos[i]=senal[i];
