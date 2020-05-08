@@ -1,3 +1,8 @@
+// Pantalla OLED
+#include <U8g2lib.h>
+#include <U8x8lib.h>
+U8G2_SH1106_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
+
 
 
 #include <arduinoFFT.h>
@@ -44,6 +49,7 @@ float resultadoPasaBajos2[512];
 float  resultadoPasaBajos3[512];
 float imprimirPasaBajos[512];
 float imprimirPasaAltos[512];
+float imprimir[256];
 const uint16_t samples = 512;             // DE PSD 
 double senal5seg[samples];
 const double samplingFrequency = 100;
@@ -65,6 +71,8 @@ float calculoFrecuenciaCardiaca(float entrada[512]);
 void  obtenerValorAcDc(float miSenal[512], float *direccion_valorDC, float *direccion_frecuenciaCardiaca, float *direccion_valorAC, float *direccion_frecuenciaCardiacaPSD);
 void eliminarPicos(float senalPicos[512]);
 
+float resultadoFrecuenciaCardiaca;
+float resultadoSpo2;
 //int tiempoInterrupcionTranscurrido;
 
 void IRAM_ATTR onTimer(){
@@ -92,7 +100,9 @@ void IRAM_ATTR onTimer(){
    
     }
     */
-    
+
+
+     
 
 }
 
@@ -130,7 +140,20 @@ void setup() {
     Serial.println("start timer");
     tiempo=millis();
   
+    // OLED
+    u8g2.begin();
   
+    u8g2.setFont(u8g2_font_ncenB08_tr);	// choose a suitable font
+    u8g2.drawStr(0,10,"Fc= ");	// write something to the internal memory
+    u8g2.setCursor(20,10);
+    u8g2.print(u8x8_u8toa(89, 3));
+    u8g2.drawStr(40,10,"bpm");
+    u8g2.drawStr(70,10,"SpO2= ");  // write something to the internal memory
+    u8g2.setCursor(105,10);
+    u8g2.print(u8x8_u8toa(94, 2));
+    u8g2.drawStr(120,10,"%");
+    u8g2.sendBuffer();
+
 }
 
 void loop() {
@@ -216,52 +239,57 @@ void loop() {
     
     obtenerValorAcDc(senalAnalizarIR, &valorDCIR, &frecuenciaCardiacaIR, &valorACIR, &frecuenciaCardiacaPSDIR);
     
-    //Serial.print("MI VALOR DC IR ES: ");
-    //Serial.println(valorDCIR);
-    //Serial.print("MI FRECUENCIA CARDIACA IR ES: ");
-    //Serial.println(frecuenciaCardiacaIR); 
-    //Serial.print("MI VALOR AC IR ES: ");
-    //Serial.println(valorACIR);
-    //Serial.print("MI FRECUENCIA CARDIACA PSD IR ES: ");
-    //Serial.println(frecuenciaCardiacaPSDIR);
-    //Serial.println("");
+    Serial.print("MI VALOR DC IR ES: ");
+    Serial.println(valorDCIR);
+    Serial.print("MI FRECUENCIA CARDIACA IR ES: ");
+    Serial.println(frecuenciaCardiacaIR); 
+    Serial.print("MI VALOR AC IR ES: ");
+    Serial.println(valorACIR);
+    Serial.print("MI FRECUENCIA CARDIACA PSD IR ES: ");
+    Serial.println(frecuenciaCardiacaPSDIR);
+    Serial.println("");
 
-    Serial.print("FcIR: ");
-    Serial.print(frecuenciaCardiacaIR); 
-    Serial.print(" FcIRPSD: ");
-    Serial.println(frecuenciaCardiacaPSDIR); 
+    //Serial.print("FcIR: ");
+    //Serial.print(frecuenciaCardiacaIR); 
+    //Serial.print(" FcIRPSD: ");
+    //Serial.println(frecuenciaCardiacaPSDIR); 
 
 
     obtenerValorAcDc(senalAnalizarRojo, &valorDCRojo, &frecuenciaCardiacaRojo, &valorACRojo, &frecuenciaCardiacaPSDRojo);
   
-    //Serial.print("MI VALOR DC ROJO ES: ");
-    //Serial.println(valorDCRojo);
-    //Serial.print("MI FRECUENCIA CARDIACA ROJO ES: ");
-    //Serial.println(frecuenciaCardiacaRojo); 
-    //Serial.print("MI VALOR AC ROJO ES: ");
-    //Serial.println(valorACRojo);
-    //Serial.print("MI FRECUENCIA CARDIACA PSD ROJO ES: ");
-    //Serial.println(frecuenciaCardiacaPSDRojo);
-    //Serial.println("");
-    
-    Serial.print("FcR_: ");
-    Serial.print(frecuenciaCardiacaRojo); 
-    Serial.print(" FcR_PSD: ");
+    Serial.print("MI VALOR DC ROJO ES: ");
+    Serial.println(valorDCRojo);
+    Serial.print("MI FRECUENCIA CARDIACA ROJO ES: ");
+    Serial.println(frecuenciaCardiacaRojo); 
+    Serial.print("MI VALOR AC ROJO ES: ");
+    Serial.println(valorACRojo);
+    Serial.print("MI FRECUENCIA CARDIACA PSD ROJO ES: ");
     Serial.println(frecuenciaCardiacaPSDRojo);
+    Serial.println("");
+    
+    //Serial.print("FcR_: ");
+    //Serial.print(frecuenciaCardiacaRojo); 
+    //Serial.print(" FcR_PSD: ");
+    //Serial.println(frecuenciaCardiacaPSDRojo);
     
 
     R=(valorACRojo/valorDCRojo)/(valorACIR/valorDCIR);
-    R=R*3.2;
+    R=R*3.5;
     spo2 =110-25*R;
     
+
     //if ((abs(frecuenciaCardiacaIR-frecuenciaCardiacaRojo)>6) || (abs(frecuenciaCardiacaPSDIR-frecuenciaCardiacaIR)>25) || (abs(frecuenciaCardiacaPSDRojo-frecuenciaCardiacaRojo)>25) ||  (abs(frecuenciaCardiacaPSDIR-frecuenciaCardiacaPSDRojo)>25)  || (frecuenciaCardiacaIR>240) || (frecuenciaCardiacaRojo>240) or (frecuenciaCardiacaIR<30) || (frecuenciaCardiacaRojo<30) || (spo2<50) || (spo2>99) || (valorACRojo<500) || (valorACIR<500) ){
+    //if ( (abs(frecuenciaCardiacaPSDIR-frecuenciaCardiacaIR)>25) || (abs(frecuenciaCardiacaPSDRojo-frecuenciaCardiacaRojo)>25) ||  (abs(frecuenciaCardiacaPSDIR-frecuenciaCardiacaPSDRojo)>25)  || (frecuenciaCardiacaIR>240) || (frecuenciaCardiacaRojo>240) or (frecuenciaCardiacaIR<30) || (frecuenciaCardiacaRojo<30) || (spo2<50) || (spo2>99) ){
+    if ( (abs(frecuenciaCardiacaPSDIR-frecuenciaCardiacaIR)>25) || (frecuenciaCardiacaIR>240) || (frecuenciaCardiacaIR<30) || (spo2<50) || (spo2>99) ){
+   
     //    Serial.println("SENSANDO...");
-    //}
-    //else{
-        Serial.print("SPO2= ");
-        Serial.println(spo2);
-        Serial.println("");
-    //}
+        resultadoSpo2=0;
+        resultadoFrecuenciaCardiaca=0;
+    }
+    else{
+        resultadoSpo2=spo2;
+        resultadoFrecuenciaCardiaca=frecuenciaCardiacaIR;    
+    }
     /*
     Serial.println("la señal Roja procesada fue:");
     for (i=0;i<512;i++){
@@ -270,14 +298,49 @@ void loop() {
         Serial.println(senalAnalizarRojo[i]);
     }
     */ 
+   Serial.println(resultadoSpo2);
+
+   // VISUALIZACIÓN EN OLED
+    if (punteroValorSensado % 4==0){
+        u8g2.clearDisplay();
+        int OLEDvalorActual;
+        int OLEDvalorAnterior=37;
+        for (i=128;i<256;i++){
+        //valorActual=int(map(imprimir[i], -1200, 1000, 20, 64));
+            OLEDvalorActual=int(map(imprimir[i], -1200, 1000, 0, 54));
+            OLEDvalorActual=64-OLEDvalorActual;
+        
+            u8g2.drawLine(i-128,OLEDvalorAnterior,i+1-128,OLEDvalorActual);
+            OLEDvalorAnterior=OLEDvalorActual;
+        //delay(5);
+        
+        
+        //u8g2.drawLine(i,40-20*sin(2*PI*i/50),i+1,40-20*sin(2*PI*(i+1)/50));
+        }
+        u8g2.setFont(u8g2_font_ncenB08_tr);	// choose a suitable font
+        u8g2.drawStr(0,10,"Fc= ");	// write something to the internal memory
+        u8g2.setCursor(20,10);
+        u8g2.print(u8x8_u8toa(resultadoFrecuenciaCardiaca, 3));
+        u8g2.drawStr(40,10,"bpm");
+        u8g2.drawStr(70,10,"SpO2= ");  // write something to the internal memory
+        u8g2.setCursor(105,10);
+        u8g2.print(u8x8_u8toa(resultadoSpo2, 2));
+        u8g2.drawStr(120,10,"%");
+        u8g2.sendBuffer();   
+        
     
+     
+    }
     
+
+
+    // FINALIZACIÓN DE 51 SEGUNDOS DE FUNCIONAMIENTO 
     if (punteroValorSensado>5110){
-        Serial.println("la señal Roja procesada fue:");
+        Serial.println("la señal Rojo procesada fue:");
         for (i=0;i<512;i++){
             //Serial.print(i);
             //Serial.print(" ");
-            Serial.println(senalAnalizarIR[i]);
+            Serial.println(senalAnalizarRojo[i]);
         } 
         Serial.println("la senal sin nivel DC es :");
         for (i=0;i<512;i++){
@@ -310,14 +373,14 @@ void loop() {
             Serial.println(resultadoPasaBajos3[i]);
         }
         Serial.println("la senal en la pantalla OLED es :");
-        for (i=0;i<512;i++){
+        for (i=0;i<256;i++){
             //Serial.print(i);
             //Serial.print(" ");
-            Serial.println(imprimirPasaBajos[i]);
+            Serial.println(imprimir[i]);
         }
             
 
-         
+            
 
         
 
@@ -481,6 +544,14 @@ void  obtenerValorAcDc(float miSenal[512], float *direccion_valorDC, float *dire
         imprimirPasaBajos[i] =imprimirPasaAltos[i]*b[0]+imprimirPasaAltos[i-1]*b[1]+imprimirPasaAltos[i-2]*b[2]+imprimirPasaAltos[i-3]*b[3]-(imprimirPasaBajos[i-1]*a[1]+imprimirPasaBajos[i-2]*a[2]+imprimirPasaBajos[i-3]*a[3]);
         //Serial.println(imprimirPasaBajos[i]);
     }
+    int j=0;
+    for ( i = 0; i < 512; i=i+2 ) {
+        imprimir[j] = imprimirPasaBajos[i];
+        j++;
+    }
+
+
+
     // FIN IMPRIMIR
     
 
@@ -576,7 +647,7 @@ void  obtenerValorAcDc(float miSenal[512], float *direccion_valorDC, float *dire
     }
   
     // submuestreo 1/2
-    int j=0;
+    j=0;
     for (i=0;i<samples;i=i+2){
       senalPSD[j]=senal5seg[i];
       j++;
