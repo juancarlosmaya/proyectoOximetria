@@ -1,0 +1,8 @@
+{% extends 'plantilla_base.html'%}
+{% load static from staticfiles %}
+
+        {% block content %}
+            <h1>Usuario registrado satisfactoriamente</h1> 
+            <a href="{% url 'gestion' %}">Registrar otro</a>
+            <a href="{% url 'pagina_inicio' %}">Ir a página principal</a>
+        {% endblock content %}
