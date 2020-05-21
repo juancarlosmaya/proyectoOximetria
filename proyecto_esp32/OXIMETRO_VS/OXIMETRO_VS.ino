@@ -1,25 +1,41 @@
+// LIBRERIAS WIFI
+#include <ArduinoJson.h>
+#include <HTTPClient.h>
+#include <WiFi.h>
+#include <WiFiMulti.h>
+// objeto conexion wifi
+WiFiMulti WiFiMulti;
+// cliente http
+HTTPClient client;
+// servidor y puerto a donde se va a conectar el dispositivo
+const uint16_t port = 80;
+const char server[]= "http://lerdbiomedica.pythonanywhere.com/APIusuario/1/";
+// objeto json para almacenar información recibida y enviada a servidor
+DynamicJsonDocument doc(10000);
+
+
+
 // Pantalla OLED
 #include <U8g2lib.h>
 #include <U8x8lib.h>
 U8G2_SH1106_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
 
 
-
+// Fourier
 #include <arduinoFFT.h>
 #include <defs.h>
 #include <types.h>
+arduinoFFT FFT = arduinoFFT(); /* Create FFT object */
 
 #include "Arduino.h"
 #include "Esp.h"
 
+// Max30102
 #include <Wire.h>
 #include "MAX30105.h"
-
 MAX30105 particleSensor;
-//#define debug Serial
 
 
-arduinoFFT FFT = arduinoFFT(); /* Create FFT object */
 
 //SEÑALES DE PRUEBA CON SATUARACIÓN 92.89% Fc= 98 bpm
 float senalIR[512]={122741,122762,122778,122776,122790,122810,122796,122807,122860,122886,122856,122747,122673,122586,122458,122318,122263,122243,122215,122150,122076,122064,122017,121991,121972,121974,122014,122055,122039,122037,122064,122056,122078,122069,122131,122209,122214,122218,122211,122216,122212,122203,122219,122278,122326,122318,122294,122321,122322,122322,122309,122322,122419,122460,122466,122456,122486,122501,122518,122493,122600,122658,122708,122705,122724,122731,122742,122734,122786,122849,122893,122906,122851,122801,122732,122615,122485,122414,122359,122316,122225,122151,122110,122059,122014,121957,121984,122040,122054,122013,122009,122021,122054,122059,122056,122099,122203,122221,122202,122233,122244,122247,122241,122261,122316,122345,122320,122307,122321,122331,122346,122330,122362,122453,122468,122498,122466,122505,122515,122530,122537,122568,122650,122680,122657,122684,122714,122723,122707,122753,122813,122862,122860,122798,122761,122684,122582,122420,122337,122283,122215,122110,122037,121977,121927,121884,121825,121834,121869,121879,121856,121840,121861,121877,121876,121883,121961,122035,122066,122066,122109,122116,122126,122093,122143,122190,122216,122256,122207,122231,122254,122255,122241,122273,122344,122422,122430,122407,122427,122464,122463,122444,122496,122577,122614,122656,122649,122675,122702,122708,122687,122752,122797,122841,122806,122721,122668,122568,122458,122302,122256,122239,122156,122088,121987,121952,121919,121863,121812,121883,121910,121891,121875,121896,121911,121929,121890,121966,122064,122119,122124,122127,122158,122171,122162,122128,122188,122245,122278,122271,122271,122297,122300,122314,122329,122373,122439,122499,122482,122503,122509,122544,122554,122558,122609,122689,122734,122757,122752,122773,122806,122796,122786,122853,122919,122916,122879,122825,122757,122632,122513,122424,122387,122340,122263,122187,122148,122111,122074,122042,122052,122094,122112,122072,122052,122071,122101,122101,122108,122196,122274,122288,122287,122323,122326,122320,122319,122330,122405,122450,122433,122441,122440,122451,122457,122438,122490,122572,122603,122628,122612,122634,122653,122634,122648,122713,122792,122829,122819,122823,122876,122876,122869,122890,122949,123009,122989,122935,122880,122789,122684,122570,122505,122473,122440,122372,122315,122287,122278,122228,122211,122212,122270,122281,122270,122258,122285,122309,122319,122306,122377,122455,122463,122450,122457,122482,122482,122465,122502,122528,122576,122600,122567,122573,122592,122601,122597,122638,122700,122759,122745,122743,122758,122781,122784,122772,122825,122878,122921,122935,122951,122979,122981,122991,122966,122996,123025,123009,122908,122781,122714,122613,122514,122425,122420,122449,122401,122346,122325,122303,122302,122258,122270,122308,122345,122352,122343,122361,122385,122387,122373,122424,122506,122535,122531,122501,122502,122511,122495,122485,122525,122591,122587,122573,122583,122619,122611,122605,122664,122723,122777,122784,122787,122801,122822,122835,122824,122860,122931,122987,122995,122979,123030,123036,123034,122992,122993,123010,122945,122852,122730,122636,122554,122473,122407,122398,122407,122382,122337,122320,122296,122272,122242,122263,122297,122336,122353,122351,122361,122402,122396,122408,122434,122510,122540,122532,122506,122518,122526,122517,122483,122531,122613,122647,122649,122637,122650,122670,122685,122650,122724,122795,122846,122856,122844,122875,122889,122871,122888,122935,123009,123038,123044,123050,123064,123055,123014,122999,122985,122919,122813,122703,122622,122541,122470,122401,122377,122415,122392,122364,122320,122308};
@@ -70,6 +86,8 @@ int punteroValorSensado;
 float calculoFrecuenciaCardiaca(float entrada[512]);
 void  obtenerValorAcDc(float miSenal[512], float *direccion_valorDC, float *direccion_frecuenciaCardiaca, float *direccion_valorAC, float *direccion_frecuenciaCardiacaPSD);
 void eliminarPicos(float senalPicos[512]);
+void enviarDatosServidor(float SENAL_ENVIAR[256], float frecuencia_cardiaca_enviar, float oximetria_enviar, int numero_picos_enviar, float BalanceIRRDC_enviar);
+
 
 float resultadoFrecuenciaCardiaca;
 float resultadoSpo2;
@@ -128,8 +146,6 @@ void setup() {
         Serial.println("MAX30105 was not found. Please check wiring/power. ");
         while (1);
     }
-
-
     byte ledBrightness = 0xFF; //Options: 0=Off to 255=50mA
     byte sampleAverage = 2; //Options: 1, 2, 4, 8, 16, 32
     byte ledMode = 2; //Options: 1 = Red only, 2 = Red + IR, 3 = Red + IR + Green
@@ -137,8 +153,21 @@ void setup() {
     int pulseWidth = 411; //Options: 69, 118, 215, 411
     int adcRange = 16384; //Options: 2048, 4096, 8192, 16384
     particleSensor.setup(ledBrightness, sampleAverage, ledMode, sampleRate, pulseWidth, adcRange); //Configure sensor with these settings
-    
     particleSensor.setPulseAmplitudeIR(ledBrightnessIR);
+
+
+    // CONFIGURACIÓN ENVÍO DE DATOS A SERVIDOR
+    WiFiMulti.addAP("ERAZO", "sofia108516#"); // poner aquí clave y contraseña wifi
+    Serial.print("Esperano conexión WIFI");
+    while(WiFiMulti.run() != WL_CONNECTED) {
+        Serial.print(".");
+        delay(500);
+    }
+    Serial.println("");
+    Serial.println("WiFi conectado");
+    Serial.println("IP address: ");
+    Serial.println(WiFi.localIP());
+    
 
     // CONFIGURACIÓN INTERRUPCIÓN 100 hZ
     /* Use 1st timer of 4 */ /* 1 tick take 1/(80MHZ/80) = 1us so we set divider 80 and count up */
@@ -175,6 +204,19 @@ void loop() {
     float R;
     float spo2;
     int i;
+
+    Serial.print("Conectando a: ");
+    Serial.println(server);
+
+    //REALIZAR LA CONEXION    
+    if (!client.begin(server)) {
+        // conexión fallida
+        Serial.println("Connection failed.");
+        while (1){}
+    }
+
+
+
 
     // simulador de artefactos tipo picos
     //senalIR[100]=0;     
@@ -245,6 +287,7 @@ void loop() {
         
         // ANÁLISIS SEÑAL IR
         obtenerValorAcDc(senalAnalizarIR, &valorDCIR, &frecuenciaCardiacaIR, &valorACIR, &frecuenciaCardiacaPSDIR);
+        /*
         Serial.print("MI VALOR DC IR ES: ");
         Serial.println(valorDCIR);
         Serial.print("MI FRECUENCIA CARDIACA IR ES: ");
@@ -254,7 +297,8 @@ void loop() {
         Serial.print("MI FRECUENCIA CARDIACA PSD IR ES: ");
         Serial.println(frecuenciaCardiacaPSDIR);
         Serial.println("");
-        
+        */
+
         //Serial.print("FcIR: ");
         //Serial.print(frecuenciaCardiacaIR); 
         //Serial.print(" FcIRPSD: ");
@@ -302,6 +346,7 @@ void loop() {
 
         // ANÁLISIS SEÑAL ROJO
         obtenerValorAcDc(senalAnalizarRojo, &valorDCRojo, &frecuenciaCardiacaRojo, &valorACRojo, &frecuenciaCardiacaPSDRojo);
+        /*
         Serial.print("MI VALOR DC ROJO ES: ");
         Serial.println(valorDCRojo);
         Serial.print("MI FRECUENCIA CARDIACA ROJO ES: ");
@@ -311,7 +356,7 @@ void loop() {
         Serial.print("MI FRECUENCIA CARDIACA PSD ROJO ES: ");
         Serial.println(frecuenciaCardiacaPSDRojo);
         Serial.println("");
-
+        */
 
             
 
@@ -339,7 +384,7 @@ void loop() {
             resultadoFrecuenciaCardiaca=frecuenciaCardiacaIR;    
         }
         
-        Serial.println(resultadoSpo2);
+        //Serial.println(resultadoSpo2);
 
         // ACTUALIZACIÓN DE INTENSIDAD DE LEDS
         int estabilidad;
@@ -366,7 +411,7 @@ void loop() {
         
 
         // VISUALIZACIÓN EN OLED
-        if (punteroValorSensado % 2==0){
+        if (punteroValorSensado % 1==0){
             u8g2.clearBuffer();
             int OLEDvalorActual;
             int OLEDvalorAnterior=37;
@@ -406,7 +451,10 @@ void loop() {
             u8g2.print(u8x8_u8toa((valorDCIR-valorDCRojo)*1000/valorDCIR, 3));
             u8g2.setCursor(110,60);
             u8g2.print(u8x8_u8toa(int(ledBrightnessIR),3));
-            u8g2.sendBuffer();       
+            u8g2.sendBuffer();  
+
+            enviarDatosServidor(imprimir,resultadoFrecuenciaCardiaca,resultadoSpo2,numeroPicosEncontrados,(valorDCIR-valorDCRojo)*1000/valorDCIR);                               
+             
         }
         
         // FINALIZACIÓN DE 51 SEGUNDOS DE FUNCIONAMIENTO 
@@ -501,7 +549,6 @@ float calculoFrecuenciaCardiaca(float entrada[500]){
     return frecuenciaPromedio;
 
 }
-
 
 void  obtenerValorAcDc(float miSenal[512], float *direccion_valorDC, float *direccion_frecuenciaCardiaca, float *direccion_valorAC, float *direccion_frecuenciaCardiacaPSD){
 
@@ -846,5 +893,49 @@ void eliminarPicos(float senal[512]){
 
 
     }
+
+}
+
+void enviarDatosServidor(float SENAL_ENVIAR[256], float frecuencia_cardiaca_enviar, float oximetria_enviar, int numero_picos_enviar, float BalanceIRRDC_enviar){
+
+    //Serial.print("enviando datos");
+    
+    int tiempo=micros();
+    
+
+    int httpCode=client.GET();
+    if (httpCode > 0) {
+        // --------- LEER DATOS DE BASE DE DATOS
+        // Get the request response payload
+        String payload = client.getString(); 
+        //Serial.println(payload);          
+        DeserializationError error= deserializeJson(doc, payload); // deserializa y revisa errores
+        if (error) {
+            Serial.print(F("deserializeJson() failed with code "));
+            Serial.println(error.c_str());
+        }
+        
+        //int frecuencia_cardiaca = doc["frecuenciaCardiaca"].as<int>();
+        //Serial.print("la frecuencia cardíaca es");
+        //Serial.println(frecuencia_cardiaca);
+        
+
+        // -------- SOBREESCRIBIR DATOS EN BASE DE DATOS
+        
+        client.addHeader("Content-Type", "application/json");
+        
+        for (int j=0;j<256;j++){doc["pletismografia"]["senal"][j]=int(SENAL_ENVIAR[j]);}
+        doc["frecuenciaCardiaca"] = int(frecuencia_cardiaca_enviar);
+        doc["oximetria"] = int(oximetria_enviar);
+        doc["NumeroPicos"]=int(numero_picos_enviar);
+        doc["BalanceIRRDC"]=int(BalanceIRRDC_enviar);
+
+        String message = "";
+        serializeJson(doc, message);
+        //Serial.print(message);
+        httpCode = client.PUT(message);
+    }  
+    Serial.print("El tiempo transcurrido es:");
+    Serial.print(micros()-tiempo);
 
 }

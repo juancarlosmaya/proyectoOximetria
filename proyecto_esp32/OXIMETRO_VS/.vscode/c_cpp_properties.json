@@ -3,13 +3,14 @@
         {
             "name": "Win32",
             "includePath": [
+                "C:\\Users\\JUAN CARLOS\\Documents\\Arduino\\hardware\\espressif\\esp32\\**",
                 "C:\\Users\\JUAN CARLOS\\Documents\\Arduino\\libraries\\U8g2\\src",
                 "C:\\Users\\JUAN CARLOS\\Documents\\Arduino\\libraries\\SparkFun_MAX3010x_Pulse_and_Proximity_Sensor_Library\\src",
                 "C:\\Users\\JUAN CARLOS\\Documents\\Arduino\\libraries\\arduinoFFT\\src",
                 "C:\\Users\\JUAN CARLOS\\AppData\\Local\\Arduino15\\packages\\esp32\\tools\\**",
-                "C:\\Users\\JUAN CARLOS\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\1.0.4\\**"
-              
-
+                "C:\\Users\\JUAN CARLOS\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\1.0.4\\**",
+                "C:\\Program Files (x86)\\Arduino\\hardware\\tools\\**",
+                "C:\\Program Files (x86)\\Arduino\\libraries\\**"
             ],
             "forcedInclude": [],
             "intelliSenseMode": "gcc-x64",
