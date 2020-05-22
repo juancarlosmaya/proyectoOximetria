@@ -9,11 +9,13 @@ WiFiMulti WiFiMulti;
 HTTPClient client;
 // servidor y puerto a donde se va a conectar el dispositivo
 const uint16_t port = 80;
+//const char server[]="http://127.0.0.1:8000/APIusuario/1/";
 const char server[]= "http://lerdbiomedica.pythonanywhere.com/APIusuario/1/";
+
 // objeto json para almacenar información recibida y enviada a servidor
 DynamicJsonDocument doc(10000);
-
-
+// manejador de tarea envío datos a servidor
+TaskHandle_t manejadorTareaServidor= NULL;
 
 // Pantalla OLED
 #include <U8g2lib.h>
@@ -95,6 +97,9 @@ float resultadoSpo2;
 
 int numeroPicosEncontrados=0;
 
+byte ledBrightnessIR = 0xC8;
+
+
 void IRAM_ATTR onTimer(){
     /*
     tiempoInterrupcionTranscurrido=millis()-tiempo;
@@ -114,7 +119,20 @@ void IRAM_ATTR onTimer(){
     */
 }
 
-byte ledBrightnessIR = 0xA0;
+
+void envioDatosServidor(void * parameter){
+  for(;;){ 
+
+        Serial.print("la tarea del servidor se esta ejecutando en: ");
+        Serial.println(xPortGetCoreID());
+
+        Serial.println("resultadoSpO2=");
+        Serial.println(resultadoSpo2);
+
+        //enviarDatosServidor(imprimir,resultadoFrecuenciaCardiaca,resultadoSpo2,numeroPicosEncontrados,(valorDCIR-valorDCRojo)*1000/valorDCIR);                               
+        enviarDatosServidor(imprimir,resultadoFrecuenciaCardiaca,resultadoSpo2,numeroPicosEncontrados,2);                                    
+  }
+}
 
 
 void setup() {
@@ -167,7 +185,17 @@ void setup() {
     Serial.println("WiFi conectado");
     Serial.println("IP address: ");
     Serial.println(WiFi.localIP());
-    
+
+    // CONFIGURACIÓN DE TAREA ENVÍO DE DATOS A INTERNET
+    xTaskCreatePinnedToCore(
+        envioDatosServidor,             // nombre de la funcion
+        "envio datos servidor",         // nombre de funcion para depuración
+        10000,                          // tamaño de stack (bytes)
+        NULL,                           // parametros pasados
+        1,                              // prioridad de la tarea
+        &manejadorTareaServidor,        // manejador de esta tarea
+        0
+    );
 
     // CONFIGURACIÓN INTERRUPCIÓN 100 hZ
     /* Use 1st timer of 4 */ /* 1 tick take 1/(80MHZ/80) = 1us so we set divider 80 and count up */
@@ -182,8 +210,6 @@ void setup() {
     //timerAlarmEnable(timer);
     //tiempo=millis();
   
-
-
 }
 
 void loop() {
@@ -303,7 +329,7 @@ void loop() {
         //Serial.print(frecuenciaCardiacaIR); 
         //Serial.print(" FcIRPSD: ");
         //Serial.println(frecuenciaCardiacaPSDIR); 
-
+        /*
         // FINALIZACIÓN DE 51 SEGUNDOS DE FUNCIONAMIENTO 
         if (punteroValorSensado>5110){
             Serial.println("IR: señal procesada:");
@@ -343,6 +369,7 @@ void loop() {
                 Serial.println(resultadoPasaBajos3[i]);
             }
         }
+        */
 
         // ANÁLISIS SEÑAL ROJO
         obtenerValorAcDc(senalAnalizarRojo, &valorDCRojo, &frecuenciaCardiacaRojo, &valorACRojo, &frecuenciaCardiacaPSDRojo);
@@ -373,7 +400,7 @@ void loop() {
         //if ((abs(frecuenciaCardiacaIR-frecuenciaCardiacaRojo)>6) || (abs(frecuenciaCardiacaPSDIR-frecuenciaCardiacaIR)>25) || (abs(frecuenciaCardiacaPSDRojo-frecuenciaCardiacaRojo)>25) ||  (abs(frecuenciaCardiacaPSDIR-frecuenciaCardiacaPSDRojo)>25)  || (frecuenciaCardiacaIR>240) || (frecuenciaCardiacaRojo>240) or (frecuenciaCardiacaIR<30) || (frecuenciaCardiacaRojo<30) || (spo2<50) || (spo2>99) || (valorACRojo<500) || (valorACIR<500) ){
         //if ( (abs(frecuenciaCardiacaPSDIR-frecuenciaCardiacaIR)>25) || (abs(frecuenciaCardiacaPSDRojo-frecuenciaCardiacaRojo)>25) ||  (abs(frecuenciaCardiacaPSDIR-frecuenciaCardiacaPSDRojo)>25)  || (frecuenciaCardiacaIR>240) || (frecuenciaCardiacaRojo>240) or (frecuenciaCardiacaIR<30) || (frecuenciaCardiacaRojo<30) || (spo2<50) || (spo2>99) ){
         //if ( (abs(frecuenciaCardiacaPSDIR-frecuenciaCardiacaIR)>25) || (frecuenciaCardiacaIR>240) || (frecuenciaCardiacaIR<30) || (spo2<50) || (spo2>100) ){
-        if  (abs(frecuenciaCardiacaPSDIR-frecuenciaCardiacaPSDRojo)>25){ 
+        if  (abs(frecuenciaCardiacaPSDIR-frecuenciaCardiacaPSDRojo)>15){ 
             // datos incorrectos
             resultadoSpo2=0;
             resultadoFrecuenciaCardiaca=0;
@@ -381,7 +408,14 @@ void loop() {
         else{
             // datos correctos
             resultadoSpo2=spo2;
-            resultadoFrecuenciaCardiaca=frecuenciaCardiacaIR;    
+            if (abs(frecuenciaCardiacaPSDIR-frecuenciaCardiacaIR)>15){
+                resultadoFrecuenciaCardiaca=0;     
+            }
+            else{
+                resultadoFrecuenciaCardiaca=frecuenciaCardiacaIR;     
+            }
+
+              
         }
         
         //Serial.println(resultadoSpo2);
@@ -392,6 +426,8 @@ void loop() {
         if (abs(frecuenciaCardiacaPSDIR-frecuenciaCardiacaPSDRojo)<20){
             estabilidad++;
             if (estabilidad>10){
+                Serial.println("DCIR/DCRR=");
+                Serial.println((100*(valorDCIR-valorDCRojo)/valorDCIR));
                 if ((100*(valorDCIR-valorDCRojo)/valorDCIR)>1 && ledBrightnessIR>0x01){
                     ledBrightnessIR=ledBrightnessIR-0x01;
                     particleSensor.setPulseAmplitudeIR(ledBrightnessIR);
@@ -453,10 +489,12 @@ void loop() {
             u8g2.print(u8x8_u8toa(int(ledBrightnessIR),3));
             u8g2.sendBuffer();  
 
-            enviarDatosServidor(imprimir,resultadoFrecuenciaCardiaca,resultadoSpo2,numeroPicosEncontrados,(valorDCIR-valorDCRojo)*1000/valorDCIR);                               
-             
         }
         
+        Serial.print("la tarea principal se esta ejecutando en: ");
+        Serial.println(xPortGetCoreID());
+
+        /*
         // FINALIZACIÓN DE 51 SEGUNDOS DE FUNCIONAMIENTO 
         if (punteroValorSensado>5110){
             Serial.println("ROJO: señal procesada:");
@@ -497,7 +535,8 @@ void loop() {
             }
             while(1){};
         }
-
+        */
+        
     }
 }
 
