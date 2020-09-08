@@ -1,0 +1,20 @@
+This is BibTeX, Version 0.99dThe top-level auxiliary file: bare_jrnl.aux
+The style file: plain.bst
+I found no \citation commands---while reading file bare_jrnl.aux
+Database file #1: mis_referencias.bib
+I was expecting a `,' or a `}'---line 9 of file mis_referencias.bib
+ :  
+ :  file = {:C\:\\Users\\juan\\Desktop\\marco referencial\\literature_repository\\HOLTER referencias.pdf:PDF}
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 20 of file mis_referencias.bib
+ :  
+ :  file = {:C\:\\Users\\juan\\Desktop\\marco referencial\\literature_repository\\1 revista colombiana de cardiologia.pdf:PDF},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 46 of file mis_referencias.bib
+ :  
+ :  file = {:C\:\\Users\\juan\\Desktop\\marco referencial\\literature_repository\\2 utilidad monitor externo.pdf:PDF},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+(There were 4 error messages)
