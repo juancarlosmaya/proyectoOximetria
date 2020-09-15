@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.6.29) (preloaded format=pdflatex 2020.9.8)  8 SEP 2020 12:15
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.6.29) (preloaded format=pdflatex 2020.9.8)  15 SEP 2020 09:49
 entering extended mode
 **./articulo_oximetro_telemetria.tex
 (articulo_oximetro_telemetria.tex
@@ -320,75 +320,147 @@ LaTeX Info: Redefining \% on input line 80.
 
 ** WARNING: \and is valid only when in conference or peerreviewca
 modes (line 82).
-<mis_senales2.png, id=1, 938.00438pt x 222.07968pt>
-File: mis_senales2.png Graphic file (type png)
-<use mis_senales2.png>
-Package pdftex.def Info: mis_senales2.png  used on input line 115.
-(pdftex.def)             Requested size: 252.94499pt x 59.88437pt.
 
-Overfull \hbox (0.94499pt too wide) in paragraph at lines 115--119
- [][] 
- []
+LaTeX Warning: File `principio_funcionamiento.png' not found on input line 117.
 
+
+
+! Package pdftex.def Error: File `principio_funcionamiento.png' not found: usin
+g draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.117 ...[width=1in]{principio_funcionamiento.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 1
+17.
+("C:\Program Files\MiKTeX\tex/latex/psnfss\ot1pcr.fd"
+File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
+)
 
 Package natbib Warning: Citation `physiobank' on page 1 undefined on input line
- 119.
+ 121.
 
-<hardware_partes.png, id=3, 673.76718pt x 165.61874pt>
-File: hardware_partes.png Graphic file (type png)
-<use hardware_partes.png>
-Package pdftex.def Info: hardware_partes.png  used on input line 202.
-(pdftex.def)             Requested size: 252.94499pt x 62.17763pt.
 
-Overfull \hbox (0.94499pt too wide) in paragraph at lines 202--203
- [][] 
+LaTeX Warning: File `esquema_general.png' not found on input line 209.
+
+
+! Package pdftex.def Error: File `esquema_general.png' not found: using draft s
+etting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.209 ...egraphics[width=1in]{esquema_general.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 217--219
+
  []
 
 
+LaTeX Warning: File `Descripci√≥n_firmware.png' not found on input line 231.
+
+
+! Package pdftex.def Error: File `Descripci√≥n_firmware.png' not found: using d
+raft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.231 ...ics[width=1in]{Descripci√≥n_firmware.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+Missing character: There is no √ in font pcrr7t!
+Missing character: There is no ≥ in font pcrr7t!
+
+Underfull \hbox (badness 10000) in paragraph at lines 242--244
+
+ []
+
+
+LaTeX Warning: File `montaje_final.png' not found on input line 479.
+
+
+! Package pdftex.def Error: File `montaje_final.png' not found: using draft set
+ting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.479 ...udegraphics[width=1in]{montaje_final.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: File `plataforma.png' not found on input line 492.
+
+
+! Package pdftex.def Error: File `plataforma.png' not found: using draft settin
+g.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.492 	\includegraphics[width=1in]{plataforma.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<estructura_general.png, id=4, 477.28313pt x 243.91125pt>
-File: estructura_general.png Graphic file (type png)
-<use estructura_general.png>
-Package pdftex.def Info: estructura_general.png  used on input line 215.
-(pdftex.def)             Requested size: 180.67499pt x 92.32994pt.
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
+LaTeX Warning: File `Validacion_resultados.png' not found on input line 502.
 
-<diagrama_bloques_adc.png, id=5, 945.5325pt x 429.85594pt>
-File: diagrama_bloques_adc.png Graphic file (type png)
-<use diagrama_bloques_adc.png>
-Package pdftex.def Info: diagrama_bloques_adc.png  used on input line 227.
-(pdftex.def)             Requested size: 469.75499pt x 213.56316pt.
-<montaje.jpg, id=6, 429.24pt x 269.808pt>
-File: montaje.jpg Graphic file (type jpg)
-<use montaje.jpg>
-Package pdftex.def Info: montaje.jpg  used on input line 471.
-(pdftex.def)             Requested size: 180.67499pt x 113.5656pt.
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
+! Package pdftex.def Error: File `Validacion_resultados.png' not found: using d
+raft setting.
 
-File: montaje.jpg Graphic file (type jpg)
-<use montaje.jpg>
-Package pdftex.def Info: montaje.jpg  used on input line 482.
-(pdftex.def)             Requested size: 180.67499pt x 113.5656pt.
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.502 ...ics[width=1in]{Validacion_resultados.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-File: montaje.jpg Graphic file (type jpg)
-<use montaje.jpg>
-Package pdftex.def Info: montaje.jpg  used on input line 492.
-(pdftex.def)             Requested size: 180.67499pt x 113.5656pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 511.
+(Font)              <8> on input line 521.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 511.
+(Font)              <6> on input line 521.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 511.
-(articulo_oximetro_telemetria.bbl
+(Font)              <5> on input line 521.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+(articulo_oximetro_telemetria.bbl [1{C:/Users/JUAN CARLOS/AppData/Local/MiKTeX/
+pdftex/config/pdftex.map}
+
+
+]
 
 Package natbib Warning: Empty `thebibliography' environment on input line 25.
 
@@ -396,33 +468,32 @@ Package natbib Warning: Empty `thebibliography' environment on input line 25.
 
 Package natbib Warning: There were undefined citations.
 
-[1{C:/Users/JUAN CARLOS/AppData/Local/MiKTeX/pdftex/config/pdftex.map}
+[2
 
-
- <./mis_senales2.png> <./hardware_partes.png> <./estructura_general.png>] [2 <.
-/diagrama_bloques_adc.png> <./montaje.jpg>] (articulo_oximetro_telemetria.aux
-LaTeX Info: Redefining \. on input line 11.
-LaTeX Info: Redefining \% on input line 11.
+] (articulo_oximetro_telemetria.aux
+LaTeX Info: Redefining \. on input line 10.
+LaTeX Info: Redefining \% on input line 10.
 )
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 4288 strings out of 480790
- 66463 string characters out of 2907036
- 330972 words of memory out of 3000000
- 20236 multiletter control sequences out of 15000+200000
- 569582 words of font info for 85 fonts, out of 3000000 for 9000
+ 4394 strings out of 480790
+ 68656 string characters out of 2907036
+ 328964 words of memory out of 3000000
+ 20322 multiletter control sequences out of 15000+200000
+ 570097 words of font info for 87 fonts, out of 3000000 for 9000
  1144 hyphenation exceptions out of 8191
  34i,10n,35p,1400b,361s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files/MiKTeX/fonts/enc/dvips/base/8r.enc}<C:/Program Files/MiKTeX
-/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/time
-s/utmbi8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Pro
-gram Files/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on articulo_oximetro_telemetria.pdf (2 pages, 981598 bytes).
+/fonts/type1/urw/courier/ucrr8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/ti
+mes/utmb8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmbi8a.pfb><C:/P
+rogram Files/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Program Files/MiKTeX/f
+onts/type1/urw/times/utmri8a.pfb>
+Output written on articulo_oximetro_telemetria.pdf (2 pages, 63565 bytes).
 PDF statistics:
- 36 PDF objects out of 1000 (max. 8388607)
+ 30 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 26 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

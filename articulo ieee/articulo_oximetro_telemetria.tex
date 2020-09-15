@@ -92,13 +92,13 @@ Autores
 \IEEEpeerreviewmaketitle
 
 \begin{IEEEkeywords}
-	Saturación de oxígeno, MAX30102, pletismografía, embebido, densidad espectral de potencia, telemetría.
+	Saturación de oxígeno, MAX30102, fotopletismografía, embebido, densidad espectral de potencia, telemetría.
 \end{IEEEkeywords}
 
 
 \section{Introducción}
 
-A
+{\color{blue}A}
 
 \IEEEPARstart{E}{p}idemología de enferedades respiratorias y cardiovasculares.
 
@@ -108,11 +108,13 @@ Descripción de fisiología asociada a enfermedades cardiorespiratorias.
 Importancia de medición de oxígeno en sangre y bondandes de telemedicina
 Hay escasez de tecnologías disponibles con el alcance de monitorizacion telemétrica de oxígeno en sangre.
 
+{\color{blue}B}
+
 Descripción del oxímetro de pulso y dificultades para medir spo2
 
 \begin{figure}[!h]
 	\centering
-	\includegraphics[width=3.5in]{mis_senales2.png}
+	\includegraphics[width=1in]{principio_funcionamiento.png}
 	% where an .eps filename suffix will be assumed under latex, 
 	% and a .pdf suffix will be assumed for pdflatex; or what has been declared
 	% via \DeclareGraphicsExtensions.
@@ -120,11 +122,12 @@ Descripción del oxímetro de pulso y dificultades para medir spo2
 	
 	\label{imagen_ecg}
 \end{figure}
+{\color{blue}C}
 
 Descripción de telemedicina y telemetría y dificultades en el desarrollo de monitor telemétrico.
 
 
-El present artículo aborla la medicion de spo2 mediante tlemetria con la respectiva evaluación de resultados para aplicaciones futuras en telemedicina 
+El presente artículo aborda la medicion de spo2 mediante telemetria con la respectiva evaluación de resultados para aplicaciones futuras en telemedicina, 
 
 
 
@@ -162,7 +165,7 @@ El present artículo aborla la medicion de spo2 mediante tlemetria con la respec
 
 %Entre los modelos supervisados más utilizados en el reconocimiento automático de fibrilación auricular se encuentran:  k vecinos más cercanos (KNN), redes neuronales artificiales (ANN), y máquinas de soporte vectorial (SVM) \cite{artificial_intelligence}. Algoritmos que en la presente investigación se implementan en un computador de placa reducida para realizar su evaluación en cuanto a capacidad de detección de fibrilación auricular y tiempo de respuesta.
 
-Las secciones que a continuación se presentan se encuentran organizadas de la siguiente manera: en la sección 2 se realiza una descripción de la ; en la sección 3 se presenta la descripción de las ; en la sección 4 se presenta la evaluación realizada ; para último, en la sección 5 presentan las conclusiones más relevantes del estudio realizado.
+%Las secciones que a continuación se presentan se encuentran organizadas de la siguiente manera: en la sección 2 se realiza una descripción de la ; en la sección 3 se presenta la descripción de las ; en la sección 4 se presenta la evaluación realizada ; para último, en la sección 5 presentan las conclusiones más relevantes del estudio realizado.
 
 
 
@@ -174,12 +177,16 @@ Las secciones que a continuación se presentan se encuentran organizadas de la s
 
 \section{Materiales}
 
-D
-
+{\color{blue}D}
+\newline
 MAX30102
+\newline
 OLED
+\newline
 ESP32
+\newline
 Servidor
+\newline
 PC
 
 %Para la evaluación de desempeño de los algoritmos de reconocimiento automático de patrones en la detección de fibrilación auricular en computador de placa reducida se propone el uso de la base de datos MIT-BIH AFIB (encontrada en \cite{physiobank}). Base de datos de uso generalizado en investigaciones afines y que contiene 23 registros de electrocardiografía de pacientes que presentan fibrilación auricular, con una frecuencia de muestreo de 250Hz, a una resolución de 12 bits y un rango de $+/-10mv$. Cada registro tiene una duración de 10 horas, en total se incluyen 291 episodios de fibrilación auricular con un tiempo promedio de 115 segundos, y 344 episodios de otros ritmos cardíacos \cite{wavelet_svm_afib}. Estos episodios se encuentran marcados, con anotaciones en tiempos específicos según revisiones previas de especialistas creadores de la base de datos; en la figura \ref{imagen_ecg} se representa un ejemplo de un archivo de la base de datos con la anotación respectiva en la medida que la señal cardíaca cambia llegando el segundo 5 de ritmo normal a ritmo con fibrilación auricular.
@@ -199,7 +206,7 @@ PC
 
 \begin{figure}[!h]
 	\centering
-	\includegraphics[width=3.5in]{hardware_partes.png}
+	\includegraphics[width=1in]{esquema_general.png}
 	\caption{Esquma general de solución propuesta}.
 	\label{hardware}
 \end{figure}
@@ -207,34 +214,33 @@ PC
 
 \section{Métodos}
 
+Descripción de estructura general del proytecto
+\newline 
 
-Estructura general del proytecto
+{\color{blue}E}
+
+\subsection{Embebido}
+
+Descripción de hardware
+
+Descripción de firmware 
+
 
 \begin{figure}[!h]
 	\centering
-	\includegraphics[width=2.5in]{estructura_general}
-	\caption{Estructura general de sistema de reconocimiento de fibrilación auricular}.
+	\includegraphics[width=1in]{Descripción_firmware.png}
+	\caption{Descripción de firmware}.
 	\label{estructura_general}
 \end{figure}
 
-E 
 
-\subsection{Embebido}
-Descripción de firmware 
 
-\begin{figure*}[!t]
-	\centering
-	\includegraphics[width=6.5in]{diagrama_bloques_adc}%
-	
-	\hfil
-	
-	\caption{Diagrama de flujo.}.
-	\label{diagrama_bloques}
-\end{figure*}
+{\color{blue}F}
 
 
 \subsection{Telemetría}
 Descripción de aplicacion web
+\newline
 
 %Una vez la señal de electrocardiografía es adquirida, se puede procesar computacionalmente para detectar automáticamente si presenta o no algún tipo de arritmia, en nuestro caso de estudio, fibrilación auricular (según recomendación de \cite{wavelet_svm_afib} y propuesta de  \cite{embedded_arm_afib}, la señal es procesada en ventanas de 10 segundos). Para ello, deben extraerse de la señal ciertas características que permitan distinguir fácilmente y con el mayor nivel de generalización posible, la presencia o no de la arritmia. Una vez establecidas las características, el paso siguiente es aplicar un algoritmo de reconocimiento automático de patrones que las categorice como pertenecientes a una señal con o sin fibrilación auricular, ver figura \ref{estructura_general}. Así, los algoritmos se dividen en dos etapas fundamentales, por un lado el preprocesamiento y la extracción de características, y por otro, los algoritmos de reconocimiento automático de patrones. 
 
@@ -461,39 +467,43 @@ Descripción de aplicacion web
 %
 %
 
+
+
+{\color{blue}G}
 \section{Resultados}
 
-%%Con la implementación de los elementos presentados en la figura \ref{hardware} y con las herramientas de la figura \ref{diagrama_bloques}, 
-%En la figura \ref{montaje_generador_rpi} se presenta el montaje final para la evaluación de desempeño de los diferentes algoritmos de reconocimiento automático de fibrilación auricular. El computador de placa reducida permite la lectura tanto de ficheros guardados en memoria para la determinación de sensibilidad y especificidad, como de la señal análoga proveniente del generador de señales para la estimación de tiempo de respuesta en la detección de fibrilación auricular.
+Descripción del montaje funcional
 
 \begin{figure}[!h]
 	\centering
-	\includegraphics[width=2.5in]{montaje}
+	\includegraphics[width=1in]{montaje_final.png}
 	% where an .eps filename suffix will be assumed under latex, 
 	% and a .pdf suffix will be assumed for pdflatex; or what has been declared
 	% via \DeclareGraphicsExtensions.
-	\caption{Montaje .}
+	\caption{Montaje}
 	\label{montaje_generador_rpi}
 \end{figure}
 
 
+Descripción de plataforma
+
 \begin{figure}[!h]
 	\centering
-	\includegraphics[width=2.5in]{montaje}
+	\includegraphics[width=1in]{plataforma.png}
 	% where an .eps filename suffix will be assumed under latex, 
 	% and a .pdf suffix will be assumed for pdflatex; or what has been declared
 	% via \DeclareGraphicsExtensions.
-	\caption{Montaje para la obtención de resultados, simulador.}
+	\caption{Visualización de resultados en plataforma.}
 	\label{montaje_generador_rpi}
 \end{figure}
 
 \begin{figure}[!h]
 	\centering
-	\includegraphics[width=2.5in]{montaje}
+	\includegraphics[width=1in]{Validacion_resultados.png}
 	% where an .eps filename suffix will be assumed under latex, 
 	% and a .pdf suffix will be assumed for pdflatex; or what has been declared
 	% via \DeclareGraphicsExtensions.
-	\caption{Aplicacion web.}
+	\caption{Comparación de mediciones con simulador}
 	\label{montaje_generador_rpi}
 \end{figure}
 
@@ -504,7 +514,7 @@ Descripción de aplicacion web
 	\begin{table}[h!]
 	\centering
 	
-	\caption{Resultados Sensibilidad y Especificidad  algoritmos implementados
+	\caption{Resultados obtenidos error e incertidumbre
 	}
 	%\cite{ica_bayes_gmm_afib} }
 	\def\arraystretch{1.2}%  controla padding
@@ -512,13 +522,12 @@ Descripción de aplicacion web
 		%		\toprule
 		
 		\hline
-		\textbf{Algoritmo} & \multicolumn{1}{c}{\textbf{Sn}} & \textbf{Sp}	\\ 
+		\textbf{Tecnología} & \multicolumn{1}{c}{\textbf{Error}} & \textbf{Incertidumbre}	\\ 
 		\hline
-		Red Neuronal  & 91.9\%	& 96.8\%\\
+		Nellcor  &--	& --\\
 		%\hline
-		Máquina de soporte vectorial  & 94.5\%	& 97.5\%\\		
-		%\hline
-		K vecinos más cercanos & 95.8\%	& 96.6\%\\
+		Massimo  &--	& --\\		
+
 		
 		\hline
 		%\bottomrule
