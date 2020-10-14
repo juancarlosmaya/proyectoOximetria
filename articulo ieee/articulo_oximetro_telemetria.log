@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.6.29) (preloaded format=pdflatex 2020.9.8)  22 SEP 2020 15:48
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.6.29) (preloaded format=pdflatex 2020.9.8)  14 OCT 2020 18:07
 entering extended mode
 **./articulo_oximetro_telemetria.tex
 (articulo_oximetro_telemetria.tex
@@ -235,8 +235,11 @@ File: l3backend-pdfmode.def 2020-06-29 L3 backend support: PDF mode
 \l__pdf_internal_box=\box49
 )
 (articulo_oximetro_telemetria.aux
-LaTeX Info: Redefining \. on input line 11.
-LaTeX Info: Redefining \% on input line 11.
+LaTeX Info: Redefining \. on input line 14.
+LaTeX Info: Redefining \% on input line 14.
+
+
+LaTeX Warning: Label `estructura_general' multiply defined.
 
 
 LaTeX Warning: Label `montaje_generador_rpi' multiply defined.
@@ -320,68 +323,59 @@ LaTeX Info: Redefining \% on input line 80.
 
 ** WARNING: \and is valid only when in conference or peerreviewca
 modes (line 82).
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 102.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 102.
+<principio_funcionamiento.png, id=1, 423.83344pt x 207.02344pt>
+File: principio_funcionamiento.png Graphic file (type png)
+<use principio_funcionamiento.png>
+Package pdftex.def Info: principio_funcionamiento.png  used on input line 112.
+(pdftex.def)             Requested size: 216.81pt x 105.90276pt.
 
-LaTeX Warning: File `principio_funcionamiento.png' not found on input line 117.
+LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-
-
-! Package pdftex.def Error: File `principio_funcionamiento.png' not found: usin
-g draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.117 ...[width=1in]{principio_funcionamiento.png}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 1
-17.
-("C:\Program Files\MiKTeX\tex/latex/psnfss\ot1pcr.fd"
-File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
-)
-
-Package natbib Warning: Citation `physiobank' on page 1 undefined on input line
- 121.
+[1{C:/Users/JUAN CARLOS/AppData/Local/MiKTeX/pdftex/config/pdftex.map}
 
 
-LaTeX Warning: File `esquema_general.png' not found on input line 209.
+ <./principio_funcionamiento.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 174--176
+
+ []
 
 
-! Package pdftex.def Error: File `esquema_general.png' not found: using draft s
+LaTeX Warning: File `Esquema general.png' not found on input line 181.
+
+
+! Package pdftex.def Error: File `Esquema general.png' not found: using draft s
 etting.
 
 See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.209 ...egraphics[width=1in]{esquema_general.png}
+l.181 ...egraphics[width=1in]{Esquema general.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
+LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 1
+81.
+("C:\Program Files\MiKTeX\tex/latex/psnfss\ot1pcr.fd"
+File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
+)
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 217--219
-
- []
-
-
-LaTeX Warning: File `Descripción_firmware.png' not found on input line 231.
+LaTeX Warning: File `DDescripción_firmware.png' not found on input line 195.
 
 
-! Package pdftex.def Error: File `Descripción_firmware.png' not found: using d
-raft setting.
+! Package pdftex.def Error: File `DDescripción_firmware.png' not found: using 
+draft setting.
 
 See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.231 ...ics[width=1in]{Descripción_firmware.png}
+l.195 ...cs[width=1in]{DDescripción_firmware.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -389,12 +383,12 @@ If that doesn't work, type  X <return>  to quit.
 Missing character: There is no � in font pcrr7t!
 Missing character: There is no � in font pcrr7t!
 
-Underfull \hbox (badness 10000) in paragraph at lines 242--244
+Underfull \hbox (badness 10000) in paragraph at lines 206--208
 
  []
 
 
-LaTeX Warning: File `montaje_final.png' not found on input line 479.
+LaTeX Warning: File `montaje_final.png' not found on input line 443.
 
 
 ! Package pdftex.def Error: File `montaje_final.png' not found: using draft set
@@ -404,13 +398,16 @@ See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.479 ...udegraphics[width=1in]{montaje_final.png}
+l.443 ...udegraphics[width=1in]{montaje_final.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 
-LaTeX Warning: File `plataforma.png' not found on input line 492.
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+LaTeX Warning: File `plataforma.png' not found on input line 456.
 
 
 ! Package pdftex.def Error: File `plataforma.png' not found: using draft settin
@@ -420,7 +417,7 @@ See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.492 	\includegraphics[width=1in]{plataforma.png}
+l.456 	\includegraphics[width=1in]{plataforma.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -429,7 +426,7 @@ If that doesn't work, type  X <return>  to quit.
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-LaTeX Warning: File `Validacion_resultados.png' not found on input line 502.
+LaTeX Warning: File `Validacion_resultados.png' not found on input line 466.
 
 
 ! Package pdftex.def Error: File `Validacion_resultados.png' not found: using d
@@ -439,7 +436,7 @@ See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.502 ...ics[width=1in]{Validacion_resultados.png}
+l.466 ...ics[width=1in]{Validacion_resultados.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -448,52 +445,36 @@ If that doesn't work, type  X <return>  to quit.
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 521.
+(Font)              <8> on input line 485.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 521.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 521.
+(Font)              <6> on input line 485.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-(articulo_oximetro_telemetria.bbl [1{C:/Users/JUAN CARLOS/AppData/Local/MiKTeX/
-pdftex/config/pdftex.map}
-
-
-]
-
-Package natbib Warning: Empty `thebibliography' environment on input line 25.
-
-)
-
-Package natbib Warning: There were undefined citations.
-
-[2
-
-] (articulo_oximetro_telemetria.aux
-LaTeX Info: Redefining \. on input line 10.
-LaTeX Info: Redefining \% on input line 10.
+(articulo_oximetro_telemetria.bbl) [2] (articulo_oximetro_telemetria.aux
+LaTeX Info: Redefining \. on input line 14.
+LaTeX Info: Redefining \% on input line 14.
 )
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 4394 strings out of 480790
- 68656 string characters out of 2907036
- 328964 words of memory out of 3000000
- 20322 multiletter control sequences out of 15000+200000
+ 4420 strings out of 480790
+ 69025 string characters out of 2907036
+ 334277 words of memory out of 3000000
+ 20347 multiletter control sequences out of 15000+200000
  570097 words of font info for 87 fonts, out of 3000000 for 9000
  1144 hyphenation exceptions out of 8191
- 34i,10n,35p,1400b,361s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 34i,10n,35p,1455b,361s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files/MiKTeX/fonts/enc/dvips/base/8r.enc}<C:/Program Files/MiKTeX
 /fonts/type1/urw/courier/ucrr8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/ti
 mes/utmb8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmbi8a.pfb><C:/P
 rogram Files/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Program Files/MiKTeX/f
 onts/type1/urw/times/utmri8a.pfb>
-Output written on articulo_oximetro_telemetria.pdf (2 pages, 63541 bytes).
+Output written on articulo_oximetro_telemetria.pdf (2 pages, 86802 bytes).
 PDF statistics:
- 30 PDF objects out of 1000 (max. 8388607)
+ 33 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 6 words of extra memory for PDF output out of 10000 (max. 10000000)
 

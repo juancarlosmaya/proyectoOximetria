@@ -75,7 +75,7 @@ Autores
 
 %\usepackage[backend=bibtex,style=ieee-alphabetic,natbib=true]{biblatex} %added
 \usepackage[numbers]{natbib}
-% \usepackage[authoryear,round,longnamesfirst]{nat}
+% \usepackage[authoryear,round,longnamesfirst]{natbib}
 
 \begin{document}
 \title{Oximetría de pulso mediante aplicación de telemetría}
@@ -85,6 +85,7 @@ Autores
 \begin{abstract}
 
 
+%El desarrollo de dispositivos portables, que permita la detección en tiempo real de fibrilación auricular, requiere la implementación de algoritmos de reconocimiento automático de patrones con la metodología adecuada para su ejecución en sistemas embebidos. En el presente artículo se expone la implementación de una red neuronal artificial (ANN), una máquina de soporte vectorial (SVM) y un algoritmo de K vecinos más cercanos (KNN) en un computador de placa reducida para así comparar su desempeño en cuanto a la capacidad de detección de esta arritmia y el tiempo de respuesta asociado en su ejecución en tiempo real. La base de datos MIT-BIH AFIB es usada para el entrenamiento y validación de los algoritmos previa extracción de parámetros asociados a la transformada wavelet estacionaria. Se encontraron resultados entre el $90\%$ y $96\%$ para la sensibilidad y especificidad de los algoritmos mencionados y tiempos de respuesta variados entre $12 s$ y $16 s$. 
 
    
 \end{abstract}
@@ -97,34 +98,23 @@ Autores
 
 \section{Introducción}
 
+{\color{blue}A}
 
+\IEEEPARstart{E}{p}idemología de enferedades respiratorias y cardiovasculares.
 
-\IEEEPARstart{S}{e}gún la Organización Mundial de la Salud, las enfermedades no transmisibles son la principal causa de muerte, en 2012 fueron las causantes del 68\% del total de las muertes registradas \cite{A_OMS_informe}. Y entre estas enfermedades, las respiratorias crónicas ocupan el tercer lugar de prevalencia después de las enfermedades cardiovasculares y el cáncer, el 80\% de estas muertes ocurren en países de ingresos bajos y medios  (A OMS prevención), \cite{A_OMS_prevencion}
+%\IEEEPARstart{L}{a} fibrilación auricular es una arritmia cardíaca que resulta ser la más frecuente en el ser humano. El 1\% de la población general y hasta 10\% de mayores de 80 años la padece \cite{uso_monitor_cardiaco}. De hecho, con el aumento de la expectativa de vida, esta arritmia se está convirtiendo en una de las enfermedades de mayor prevalencia \cite{clinica_monitoria_externa} \cite{wavelet_svm_afib} y con muy elevados gastos para los sistemas de salud (en países desarrollados se considera un gasto del 2.5\% de los gastos generales \cite{uso_monitor_cardiaco}).
 
-Los pacientes con enfermedades respiratorias crónicas se ven afectados en la cantidad de oxígeno en sangre por el reducido intercambio gaseoso alveolar. Para ellos, la medición de gases en sangre es el elemento principal en el diagnóstico y tratamiento \cite{A_webster_spo2}.  Al respecto, el oxímetro de pulso resulta ser la principal herramienta de uso clínico y de bajos costo que permite esta medición de manera no invasiva.
+Descripción de fisiología asociada a enfermedades cardiorespiratorias.
+Importancia de medición de oxígeno en sangre y bondandes de telemedicina
+Hay escasez de tecnologías disponibles con el alcance de monitorizacion telemétrica de oxígeno en sangre.
 
-Por otro lado, el progresivo incremento de la expectativa de vida y de los riesgos asociados a enfermedades no transmisibles, enfatiza la importancia del cuidado de la salud en casa con la incorporación paulatina de diferentes tecnologías \cite{A_webster_home_care}. El objetivo es reducir el número de admisiones hospitalarias; permitiendo incluso, para la monitorización de signos vitales (como lo es la cantidad de oxígeno en sangre), el envío de información ininterrumpida a los profesionales de la salud. Este telemonitoreo permitirá evitar los errores de lectura y trascripción de los métodos actuales, como el de conexión de voz; y conllevará  a la incorporación de aplicaciones escalables en materia de alarmas automáticas e inteligencia artificial dada la cantidad de datos involucrada \cite{A_telemedicina}.
+{\color{blue}B}
 
-Desarrollar una herramienta tecnológica que permita el telemonitoreo de la cantidad de oxígeno en sangre implica abordar elementos propios de oximetría de pulso y de incorporación de aplicaciones que hacen uso de internet para garantizar la monitorización remota. Con respecto a la oximetría de pulso, se trata de hacer incidir una luz roja e infraroja (con diodos emisores de luz) sobre una estructura corporal y realizar la medición de la luz transmitida o reflejada en ambas longitudes de onda haciendo uso de fotodetectores (como fotodiodos) \ref{principio_funcionamiento}.a. Dado el nivel de absorbancia diferenciado entre hemoglobina oxigenada y sin oxigenar para cada una de las longitudes de onda, es posible determinar el porcentaje de oxígeno en sangre como se indica en la figura \ref{principio_funcionamiento}.b, esto se logra con herramientas de procesamiento de señales para estimar características de las señales correspondientes a la lectura del fotodiodo.  Adicionalmente, el oxímetro de pulso, por leer señales de voltaje pulsátiles (según el pulso del paciente), es factible realizar la medición de frecuencia cardíaca. En resumen, después del procesamiento de la información,  los datos monitorizados en oximetría de pulso se componen de la siguiente información: porcentaje de saturación de oxígeno, frecuencia cardíaca y señal pletismográfica.
-
-\begin{figure}[!h]
-	\centering
-	\includegraphics[width=3in]{principio_funcionamiento.png}
-	\caption{Oximetría de pulso }.
-	\label{principio_funcionamiento}
-\end{figure}
-
-
-En cuanto al telemonitoreo de estas variables, internet permite incorporar diferentes herramientas de software que logran enviar la información a servidores web y permiten su visualización en diferentes dispositivos.  Estas aplicaciones se pueden dividir en dos tipos principales: la aplicación que recibe la información del elemento sensor (en este caso el oxímetro de pulso) y que permite acceder a la base de datos; y la aplicación que permite la visualización de la información por parte del cliente.
-
-El presente artículo aborda la telemetría de la saturación de oxígeno con la respectiva evaluación de resultados en perspectiva de aplicaciones futuras en telemedicina. En la sección 2 se presentan los elementos usados para la elaboración del oxímetro de pulso, envío y recepción de información; en la sección 3 se presenta la implementación de herramientas de procesamiento de señales para la medición de saturación de oxígeno y frecuencia cardíaca, así como el diseño del software asociado a las aplicaciones web; en la sección 3 se exponen los resultados obtenidos de la aplicación en conjunto; para finalizar con las conclusiones  de la implementación desarrollada en la sección 5.
-
-
-
+Descripción del oxímetro de pulso y dificultades para medir spo2
 
 \begin{figure}[!h]
 	\centering
-%	\includegraphics[width=1in]{principio_funcionamiento.png}
+	\includegraphics[width=1in]{principio_funcionamiento.png}
 	% where an .eps filename suffix will be assumed under latex, 
 	% and a .pdf suffix will be assumed for pdflatex; or what has been declared
 	% via \DeclareGraphicsExtensions.
@@ -132,6 +122,54 @@ El presente artículo aborda la telemetría de la saturación de oxígeno con la
 	
 	\label{imagen_ecg}
 \end{figure}
+{\color{blue}C}
+
+Descripción de telemedicina y telemetría y dificultades en el desarrollo de monitor telemétrico.
+
+
+El presente artículo aborda la medicion de spo2 mediante telemetria con la respectiva evaluación de resultados para aplicaciones futuras en telemedicina, 
+
+
+
+%En la fibrilación auricular, las aurículas son excitadas aleatoriamente y eventualmente se anula el impulso generado por el nodo sinoatrial (en la figura \ref{imagen_ecg} se presenta su trazado electrocardiográfico). Como consecuencia, el corazón presenta un progresivo déficit de bombeo de sangre, incrementando el riesgo de un infarto hasta cuatro veces  \cite{journal_afib}, de hecho "se calcula que el 15\% de los eventos cerebro-vasculares se atribuyen a esta arritmia, los cuales son más graves o discapacitantes que los no relacionados con ella" \cite{utilidad_monitor_externo} lo que aumenta la probabilidad de muerte o invalidez de la población afectada \cite{artificial_intelligence}. Para algunas personas la arritmia se presenta continuamente, y para otras, el ritmo normal puede suceder después de cierto tiempo (tiempos tan variados como arritmias de apenas un segundo a días) \cite{artificial_intelligence}. 
+
+
+
+
+%De ahí que sus altos niveles de incidencia a nivel mundial generen un interés particular en el desarrollo de tecnologías para su diagnóstico \cite{uso_monitor_cardiaco}. Sin embargo, su  difícil detección en algunos casos, y la ocurrencia asintomática en otros,  son algunas de las problemáticas que enfrenta el desarrollo de tecnologías para su diagnóstico oportuno.
+
+%Actualmente, en cuanto a las herramientas tecnológicas para el diagnóstico de esta arritmia se cuenta con equipos de electrocardiografía que si bien resultan ser la herramienta más asequible para el paciente, son insuficientes en el manejo clínico de pacientes con fibrilación auricular, dado el carácter asintomático y paroxístico de esta arritmia  \cite{monitores_externos} \cite{uso_monitor_cardiaco}. Por otra parte, el equipo Holter permite monitorizar al paciente por medio de 3 a 5 electrodos, durante un periodo de uno a dos días; terminado este tiempo, en el que el paciente sigue su rutina diaria normal, se transfieren los datos a un computador de escritorio y el especialista realiza el análisis manual de la información recogida. Esta monitorización ofrece una mayor sensibilidad de diagnóstico, del 15 al 28\% frente a la casi nula con el uso de electrocardiograma convencional \cite{clinica_monitoria_externa}. Sin embargo, hay un gran número de pacientes con periodicidad de ocurrencia de la afección mayor a 24 o 72 horas \cite{utilidad_monitor_externo}. 
+
+%Como alternativa a la monitorización Holter, los monitores externos de eventos  pueden usarse por un tiempo mucho más prolongado de hasta cuatro semanas \cite{clinica_monitoria_externa}%, su uso se representa en la figura \ref{monitor_externo_uso}. 
+%Adicionalmente, con la inclusión de un marcador de eventos que reconoce y graba automáticamente las arritmias presentadas, hay mayor probabilidad de que el especialista pueda detectarlas y analizarlas, pues hay periodos cortos de tiempo que analizar prioritariamente \cite{eia_holter}. Comparando el equipo Holter con el monitor externo de eventos, \cite{clinica_monitoria_externa}  establece una mejora de la sensibilidad de este último en la detección general de arritmias con valores de hasta el 63\%, comparado con el 28\% del examen Holter.
+
+%\begin{figure}[!h]
+%	\centering
+%	\includegraphics[width=1in]{monitor_externo_uso}
+%	% where an .eps filename suffix will be assumed under latex, 
+%	% and a .pdf suffix will be assumed for pdflatex; or what has been declared
+%	% via \DeclareGraphicsExtensions.
+%	\caption{Uso de monitor externo de eventos, tomado de  \cite{monitorizacion_ambulatoria}}.
+%	\label{monitor_externo_uso}
+%\end{figure}
+
+%Pese a la mayor capacidad de diagnóstico de los monitores externos de eventos, su uso no resulta tan común como las demás tecnologías \cite{utilidad_monitor_externo}, en gran parte por los altos costos de estos equipos \cite{monitorizacion_ambulatoria} \cite{comparacion_holter_monitor} que  requieren gran capacidad para la  detección automática de la arritmia con tiempos de respuesta cortos \cite{artificial_intelligence} y disponibilidad de gran cantidad de memoria para el almacenamiento de datos \cite{journal_afib}. %Altos costos que resultan de la dificultad en la implementacion de complejos algoritmos para la detección automática de la arritmia, y en razon a que su desempeño es inversamente proporcional al tiempo de respuesta  \cite{artificial_intelligence}. 
+%Al respecto del tiempo de respuesta, sobre todo en pacientes con posible toxicidad de fármacos antiarritmicos se requiere el acceso inmediato a los datos \cite{monitorizacion_ambulatoria} . Adicionalmente, en \cite{monitores_externos} y \cite{monitor_cardiaco_fibrilacion_auricular} se recalca que entre algunos parámetros importantes a obtener de la monitorización, está la duración precisa de la fibrilación  y la densidad de las arritmias en un periodo de tiempo .
+
+
+%\citeauthor{embedded_arm_afib} \cite{embedded_arm_afib} resalta que diferentes herramientas computacionales para la detección de fibrilación auricular 
+%varios algoritmos de reconocimiento de patrones y extracción de características 
+%pueden estar limitadas en su ejecución en computadores de escritorio, en la medida que su implementación en plataformas portátiles o móviles pueden no presentar resultados satisfactorios en el tiempo de ejecución, de ahí que no se cuente con numerosas investigaciones dedicadas al estudio de posibles soluciones para la detección de fibrilación auricular en sistemas embebidos. Para el reconocimiento automático de fibrilación atrial en sistemas embebidos, se requieren mayores prestaciones en hardware en la medida de la demanda de alta exactitud y tiempos de ejecución cortos. Por un lado se requiere un alto grado de certeza en el la detección de la fibrilación auricular, y por otro, se requiere una velocidad de procesamiento adecuada. 
+
+%Por otra parte, un computador de placa reducida, por tratarse de computador en una sola placa y de tamaño reducido,  puede utilizarse para la implementación de sistemas embebidos portables como en el caso de un Monitor Externo de Eventos Automático, y los recursos con los que actualmente se fabrican, hacen suponer un adecuado desempeño de los diferentes algoritmos mencionados para la detección automática de la arritmia tanto en su capacidad de reconocimiento como en su tiempo de respuesta, variables esenciales en la propuesta de un equipo biomédico práctico \cite{embedded_rpi}.  
+
+%Entre los modelos supervisados más utilizados en el reconocimiento automático de fibrilación auricular se encuentran:  k vecinos más cercanos (KNN), redes neuronales artificiales (ANN), y máquinas de soporte vectorial (SVM) \cite{artificial_intelligence}. Algoritmos que en la presente investigación se implementan en un computador de placa reducida para realizar su evaluación en cuanto a capacidad de detección de fibrilación auricular y tiempo de respuesta.
+
+%Las secciones que a continuación se presentan se encuentran organizadas de la siguiente manera: en la sección 2 se realiza una descripción de la ; en la sección 3 se presenta la descripción de las ; en la sección 4 se presenta la evaluación realizada ; para último, en la sección 5 presentan las conclusiones más relevantes del estudio realizado.
+
+
+
+
 
 
 
@@ -166,7 +204,12 @@ PC
 
 
 
-
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=1in]{esquema_general.png}
+	\caption{Esquma general de solución propuesta}.
+	\label{hardware}
+\end{figure}
 
 
 \section{Métodos}
@@ -175,13 +218,6 @@ Descripción de estructura general del proytecto
 \newline 
 
 {\color{blue}E}
-
-\begin{figure}[!h]
-	\centering
-	\includegraphics[width=1in]{Esquema general.png}
-	\caption{Esquema general}.
-	\label{estructura_general}
-\end{figure}
 
 \subsection{Embebido}
 
@@ -192,7 +228,7 @@ Descripción de firmware
 
 \begin{figure}[!h]
 	\centering
-	\includegraphics[width=1in]{DDescripción_firmware.png}
+	\includegraphics[width=1in]{Descripción_firmware.png}
 	\caption{Descripción de firmware}.
 	\label{estructura_general}
 \end{figure}
@@ -590,7 +626,7 @@ Descripción de plataforma
 \section*{Acknowledgment}
 We acknowledge the acknowledged acknowledgees.
 
-\bibliography{mis_referencias}
+\bibliography{bibit}
 \bibliographystyle{IEEEtranN}
 
 \end{document}
