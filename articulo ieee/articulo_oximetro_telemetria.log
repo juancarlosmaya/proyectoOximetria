@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.6.29) (preloaded format=pdflatex 2020.9.8)  14 OCT 2020 18:07
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.6.29) (preloaded format=pdflatex 2020.9.8)  28 OCT 2020 17:52
 entering extended mode
 **./articulo_oximetro_telemetria.tex
 (articulo_oximetro_telemetria.tex
@@ -387,27 +387,16 @@ Underfull \hbox (badness 10000) in paragraph at lines 206--208
 
  []
 
-
-LaTeX Warning: File `montaje_final.png' not found on input line 443.
-
-
-! Package pdftex.def Error: File `montaje_final.png' not found: using draft set
-ting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.443 ...udegraphics[width=1in]{montaje_final.png}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
+<montaje_final.png, id=11, 599.46063pt x 433.62pt>
+File: montaje_final.png Graphic file (type png)
+<use montaje_final.png>
+Package pdftex.def Info: montaje_final.png  used on input line 445.
+(pdftex.def)             Requested size: 216.81pt x 156.83089pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-LaTeX Warning: File `plataforma.png' not found on input line 456.
+LaTeX Warning: File `plataforma.png' not found on input line 458.
 
 
 ! Package pdftex.def Error: File `plataforma.png' not found: using draft settin
@@ -417,7 +406,7 @@ See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.456 	\includegraphics[width=1in]{plataforma.png}
+l.458 	\includegraphics[width=1in]{plataforma.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -426,7 +415,7 @@ If that doesn't work, type  X <return>  to quit.
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-LaTeX Warning: File `Validacion_resultados.png' not found on input line 466.
+LaTeX Warning: File `Validacion_resultados.png' not found on input line 468.
 
 
 ! Package pdftex.def Error: File `Validacion_resultados.png' not found: using d
@@ -436,7 +425,7 @@ See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.466 ...ics[width=1in]{Validacion_resultados.png}
+l.468 ...ics[width=1in]{Validacion_resultados.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -445,13 +434,16 @@ If that doesn't work, type  X <return>  to quit.
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 485.
+(Font)              <8> on input line 487.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 485.
+(Font)              <6> on input line 487.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-(articulo_oximetro_telemetria.bbl) [2] (articulo_oximetro_telemetria.aux
+(articulo_oximetro_telemetria.bbl [2 <./montaje_final.png>]) [3
+
+]
+(articulo_oximetro_telemetria.aux
 LaTeX Info: Redefining \. on input line 14.
 LaTeX Info: Redefining \% on input line 14.
 )
@@ -460,21 +452,21 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 4420 strings out of 480790
- 69025 string characters out of 2907036
+ 4410 strings out of 480790
+ 68816 string characters out of 2907036
  334277 words of memory out of 3000000
- 20347 multiletter control sequences out of 15000+200000
+ 20337 multiletter control sequences out of 15000+200000
  570097 words of font info for 87 fonts, out of 3000000 for 9000
  1144 hyphenation exceptions out of 8191
- 34i,10n,35p,1455b,361s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 34i,10n,35p,1463b,361s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files/MiKTeX/fonts/enc/dvips/base/8r.enc}<C:/Program Files/MiKTeX
 /fonts/type1/urw/courier/ucrr8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/ti
 mes/utmb8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmbi8a.pfb><C:/P
 rogram Files/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Program Files/MiKTeX/f
 onts/type1/urw/times/utmri8a.pfb>
-Output written on articulo_oximetro_telemetria.pdf (2 pages, 86802 bytes).
+Output written on articulo_oximetro_telemetria.pdf (3 pages, 923679 bytes).
 PDF statistics:
- 33 PDF objects out of 1000 (max. 8388607)
+ 38 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 6 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 11 words of extra memory for PDF output out of 10000 (max. 10000000)
 
