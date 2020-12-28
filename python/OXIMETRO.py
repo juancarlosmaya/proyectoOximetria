@@ -5,6 +5,7 @@ Created on Thu Apr  9 18:51:33 2020
 
 @author: rubendiaz
 """
+import time
 
 
 from time import sleep
@@ -197,6 +198,60 @@ def obtenerValorAcDc(senal,fs):
 
 def analizarSerial():
     print("Analizando puerto serial")
+    ser = serial.Serial('COM4', 115200)
+    fs=20 # Frecuencia de muestreo
+    
+    while (ser.inWaiting()==0): #Wait here until there is data
+        pass #do nothing
+    sleep(4)
+    
+    while (ser.inWaiting()==0): #Wait here until there is data
+        pass #do nothing
+   
+    # Se lee el mensaje de inicio de ESP32, varias líneas
+    arduinoString=ser.readline()
+    arduinoString=ser.readline()
+    arduinoString=ser.readline()
+    arduinoString=ser.readline()
+    arduinoString=ser.readline()
+    arduinoString=ser.readline()
+    arduinoString=ser.readline()
+    
+    senalRojo=np.zeros(500)
+    senalIR=np.zeros(500)
+    
+    for x in range(0,10000,1):
+        
+        tiempo=time.time()
+        
+        while (ser.inWaiting()==0): #Wait here until there is data
+            pass #do nothing
+        
+        ## LEER DATOS DEL PUERTO SERIAL, rojo e infrarojo se encuntran separados por una ","
+        arduinoString=ser.readline() # Read the newest output from the Arduino
+        arduinoString=arduinoString.decode('utf-8')
+        #print(arduinoString)
+        dataArray = arduinoString.split(',') 
+        rojo = float( dataArray[0])            
+        infraRojo = float( dataArray[1])
+        #print('el rojo es: ' + str(rojo))
+        #print('el infrarojo es: ' + str(infraRojo))
+        
+        senalRojo=shift(senalRojo, -1, cval=0)
+        senalRojo[499]=rojo
+        
+        senalIR=shift(senalIR, -1, cval=0)
+        senalIR[499]=infraRojo
+        
+        
+        figuraRojo.cla()
+        [valorDCIR,valorACIR,frecuenciaCardiacaHzIR]=obtenerValorAcDc(senalIR,fs)
+        [valorDCRojo,valorACRojo,frecuenciaCardiacaHzRojo]=obtenerValorAcDc(senalRojo,fs)
+        canvas1.draw()
+        
+        root.update()
+        print("el tiempo es" + str(time.time()-tiempo))
+        
     
 def analizarCsv():
     
@@ -213,7 +268,7 @@ def analizarCsv():
     #directorio="/Users/rubendiaz/Desktop/proyecto oximetría/python/datos800.csv"
     #directorio="/Users/rubendiaz/Desktop/proyecto oximetría/python/desaturacionLeonel1.csv"
     #directorio="/Users/rubendiaz/Desktop/proyecto oximetría/python/desaturacionLeonel3.csv"
-    directorio="D:\proyecto oximetría\python\desaturacionLeonel3.csv"
+    directorio="D:\proyectoOximetria\python\desaturacionLeonel3.csv"
     print("Leyendo datos de "+directorio)
     
     ### LECTURA DE ARCHIVO

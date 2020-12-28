@@ -113,8 +113,9 @@ def analizarSerial():
     
     
     # Apertura comunicación serial
-    ser = serial.Serial('/dev/cu.usbserial-0001', 115200) # Establish the connection on a specific port
+    #ser = serial.Serial('/dev/cu.usbserial-0001', 115200) # Establish the connection on a specific port
     #ser.open()
+    ser = serial.Serial('COM4', 115200)
     
     while (ser.inWaiting()==0): #Wait here until there is data
         pass #do nothing
@@ -170,17 +171,22 @@ def analizarSerial():
         # Graficar Rojo
         figuraRojo.cla()
         figuraRojo.plot(ejex,ejeyRojo,color="red")
+        figuraRojo.set_ylim((ejeyRojo[499]-1000,ejeyRojo[499]+1000))
         figuraRojo.set_title('Señal Led Rojo',fontsize=20)
         figuraRojo.set_xlabel('Tiempo /s',fontsize=16)
         figuraRojo.set_ylabel('Voltaje /v',fontsize=16)
+        
         canvas1.draw()
         
         # Graficar Infrarojo
         figuraInfrarojo.cla()
         figuraInfrarojo.plot(ejex,ejeyInfrarojo)#,'ro',markersize=1, color="blue")
+        figuraInfrarojo.set_ylim((ejeyInfrarojo[499]-1000,ejeyInfrarojo[499]+1000))
         figuraInfrarojo.set_title('Señal Led Infrarojo',fontsize=20)
         figuraInfrarojo.set_xlabel('Tiempo /s',fontsize=16)
         figuraInfrarojo.set_ylabel('Voltaje /v',fontsize=16)
+        
+        
         canvas2.draw()
         
         
@@ -507,7 +513,9 @@ def animate(i):
     print(ejeyInfrarojo)
     
     plotRojo.set_ydata(ejeyRojo)
+    figuraRojo.set_ylim((ejeyRojo[499]-100,ejeyRojo[499]+100))
     plotInfrarojo.set_ydata(ejeyInfrarojo)  # update the data.
+    figuraInfrarojo.set_ylim((ejeyInfrarojo[499]-100,ejeyInfrarojo[499]+100))
     
     return plotRojo,plotInfrarojo
 
@@ -517,15 +525,17 @@ ejeyInfrarojo=np.zeros(500)
 ejeyRojo=np.zeros(500)
 
 plotRojo, = figuraRojo.plot(ejex, 10*np.sin(ejeyInfrarojo))
-figuraRojo.set_ylim((-1,123500))
+figuraRojo.set_ylim((75000,150000))
 
 plotInfrarojo, = figuraInfrarojo.plot(ejex, 10*np.sin(ejeyInfrarojo))
-figuraInfrarojo.set_ylim((-100,123500))
+figuraInfrarojo.set_ylim((75000,150000))
 
 
 #figuraInfrarojo.autoscale()
 
-ser = serial.Serial('/dev/cu.usbserial-0001', 115200)
+ser = serial.Serial('COM4', 115200)
+#ser = serial.Serial('/dev/cu.usbserial-0001', 115200)
+
 
 aniRojoInfrarojo = animation.FuncAnimation(
     figura1, animate, init_func=init, interval=10, blit=True, save_count=50)
