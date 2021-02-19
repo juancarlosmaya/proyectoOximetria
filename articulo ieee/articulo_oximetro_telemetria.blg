@@ -10,12 +10,12 @@ Reallocating 'singl_function' (item size: 4) to 100 items.
 Reallocating 'wiz_functions' (item size: 4) to 6000 items.
 Reallocating 'singl_function' (item size: 4) to 100 items.
 Database file #1: mis_referencias.bib
-I was expecting a `,' or a `}'---line 54 of file mis_referencias.bib
+I was expecting a `,' or a `}'---line 66 of file mis_referencias.bib
  :  
  :  file = {:C\:\\Users\\juan\\Desktop\\marco referencial\\literature_repository\\1 revista colombiana de cardiologia.pdf:PDF},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 80 of file mis_referencias.bib
+I was expecting a `,' or a `}'---line 92 of file mis_referencias.bib
  :  
  :  file = {:C\:\\Users\\juan\\Desktop\\marco referencial\\literature_repository\\2 utilidad monitor externo.pdf:PDF},
 (Error may have been on previous line)
@@ -29,45 +29,45 @@ Reallocating 'glb_str_ptr' (item size: 4) to 20 items.
 Reallocating 'global_strs' (item size: 1) to 4000000 items.
 
 Done.
-You've used 6 entries,
+You've used 7 entries,
             4783 wiz_defined-function locations,
-            972 strings with 9186 characters,
-and the built_in function-call counts, 4480 in all, are:
-= -- 373
-> -- 146
-< -- 26
-+ -- 71
-- -- 36
-* -- 247
-:= -- 734
-add.period$ -- 12
-call.type$ -- 6
-change.case$ -- 10
-chr.to.int$ -- 53
-cite$ -- 6
-duplicate$ -- 300
-empty$ -- 337
-format.name$ -- 44
-if$ -- 968
+            980 strings with 9375 characters,
+and the built_in function-call counts, 5573 in all, are:
+= -- 475
+> -- 177
+< -- 37
++ -- 87
+- -- 42
+* -- 308
+:= -- 897
+add.period$ -- 14
+call.type$ -- 7
+change.case$ -- 12
+chr.to.int$ -- 78
+cite$ -- 7
+duplicate$ -- 370
+empty$ -- 406
+format.name$ -- 52
+if$ -- 1215
 int.to.chr$ -- 2
-int.to.str$ -- 7
-missing$ -- 48
-newline$ -- 42
-num.names$ -- 18
-pop$ -- 132
+int.to.str$ -- 8
+missing$ -- 58
+newline$ -- 45
+num.names$ -- 21
+pop$ -- 152
 preamble$ -- 1
-purify$ -- 6
+purify$ -- 7
 quote$ -- 2
-skip$ -- 324
+skip$ -- 406
 stack$ -- 0
-substring$ -- 128
-swap$ -- 202
-text.length$ -- 6
+substring$ -- 187
+swap$ -- 263
+text.length$ -- 9
 text.prefix$ -- 0
 top$ -- 6
-type$ -- 80
+type$ -- 96
 warning$ -- 0
-while$ -- 20
+while$ -- 26
 width$ -- 0
-write$ -- 87
+write$ -- 100
 (There were 2 error messages)

@@ -105,33 +105,24 @@ Los pacientes con enfermedades respiratorias crónicas se ven afectados en la ca
 
 Por otro lado, el progresivo incremento de la expectativa de vida y de los riesgos asociados a enfermedades no transmisibles, enfatiza la importancia del cuidado de la salud en casa con la incorporación paulatina de diferentes tecnologías \cite{A_webster_home_care}. El objetivo es reducir el número de admisiones hospitalarias; permitiendo incluso, para la monitorización de signos vitales (como lo es la cantidad de oxígeno en sangre), el envío de información ininterrumpida a los profesionales de la salud. Este telemonitoreo permitirá evitar los errores de lectura y trascripción de los métodos actuales, como el de conexión de voz; y conllevará  a la incorporación de aplicaciones escalables en materia de alarmas automáticas e inteligencia artificial dada la cantidad de datos involucrada \cite{A_telemedicina}.
 
-Desarrollar una herramienta tecnológica que permita el telemonitoreo de la cantidad de oxígeno en sangre implica abordar elementos propios de oximetría de pulso y de incorporación de aplicaciones que hacen uso de internet para garantizar la monitorización remota. Con respecto a la oximetría de pulso, se trata de hacer incidir una luz roja e infraroja (con diodos emisores de luz) sobre una estructura corporal y realizar la medición de la luz transmitida o reflejada en ambas longitudes de onda haciendo uso de fotodetectores (como fotodiodos) \ref{principio_funcionamiento}.a. Dado el nivel de absorbancia diferenciado entre hemoglobina oxigenada y sin oxigenar para cada una de las longitudes de onda, es posible determinar el porcentaje de oxígeno en sangre como se indica en la figura \ref{principio_funcionamiento}.b, esto se logra con herramientas de procesamiento de señales para estimar características de las señales correspondientes a la lectura del fotodiodo.  Adicionalmente, con el oxímetro de pulso, por leer señales de voltaje pulsátiles (según el pulso del paciente), es factible realizar la medición de frecuencia cardíaca. Como resultado, después del procesamiento de la información,  los datos monitorizados en oximetría de pulso se componen de la siguiente información: porcentaje de saturación de oxígeno, frecuencia cardíaca y señal pletismográfica.
+Desarrollar una herramienta tecnológica que permita el telemonitoreo de la cantidad de oxígeno en sangre implica abordar elementos propios de oximetría de pulso y de incorporación de aplicaciones que hacen uso de internet para garantizar la monitorización remota. Con respecto a la oximetría de pulso, se trata de hacer incidir una luz roja e infraroja (con diodos emisores de luz) sobre una estructura corporal y realizar la medición de la luz transmitida o reflejada en ambas longitudes de onda haciendo uso de fotodetectores (como fotodiodos). Dado el nivel de absorbancia diferenciado entre hemoglobina oxigenada y sin oxigenar para cada una de las longitudes de onda, es posible determinar el porcentaje de oxígeno en sangre como se indica en la figura \ref{principio_funcionamiento}, esto se logra con herramientas de procesamiento de señales para estimar características de las señales correspondientes a la lectura del fotodiodo.  Adicionalmente, con el oxímetro de pulso, por leer señales de voltaje pulsátiles (según el pulso del paciente), es factible realizar la medición de frecuencia cardíaca. Como resultado, después del procesamiento de la información,  los datos monitorizados en oximetría de pulso se componen de la siguiente información: porcentaje de saturación de oxígeno, frecuencia cardíaca y señal pletismográfica.
 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=3in]{principio_funcionamiento.png}
-	\caption{Oximetría de pulso }.
+	\caption{Principio de funcionamiento del oximetro de pulso, editado de \cite{B_reflectance_pulse_oximetry}. }.
 	\label{principio_funcionamiento}
 \end{figure}
 
 
 En cuanto al telemonitoreo de estas variables, internet permite incorporar diferentes herramientas de software que logran enviar la información a servidores web y permiten su visualización en diferentes dispositivos.  Estas aplicaciones se pueden dividir en dos tipos principales: la aplicación que recibe la información del elemento sensor (en este caso el oxímetro de pulso) y que permite acceder a la base de datos; y la aplicación que permite la visualización de la información por parte del cliente.
 
-El presente artículo aborda la telemetría de la saturación de oxígeno con la respectiva evaluación de resultados en perspectiva de aplicaciones futuras en telemedicina. En la sección 2 se presentan los elementos usados para la elaboración del oxímetro de pulso, envío y recepción de información; en la sección 3 se presenta la implementación de herramientas de procesamiento de señales para la medición de saturación de oxígeno y frecuencia cardíaca, así como el diseño del software asociado a las aplicaciones web; en la sección 3 se exponen los resultados obtenidos de la aplicación en conjunto; para finalizar con las conclusiones  de la implementación desarrollada en la sección 5.
+El presente artículo aborda la telemetría de la saturación de oxígeno con la respectiva evaluación de resultados en perspectiva de aplicaciones futuras en telemedicina. En la sección 2 se presentan los elementos usados para la elaboración del oxímetro de pulso, envío y recepción de información; en la sección 3 se presenta la implementación de herramientas de procesamiento de señales para la medición de saturación de oxígeno y frecuencia cardíaca, así como el diseño del software asociado a la aplicacion web; en la sección 3 se exponen los resultados obtenidos de la aplicación en conjunto; para finalizar con las conclusiones  de la implementación desarrollada en la sección 5.
 
 
 
 
-\begin{figure}[!h]
-	\centering
-%	\includegraphics[width=1in]{principio_funcionamiento.png}
-	% where an .eps filename suffix will be assumed under latex, 
-	% and a .pdf suffix will be assumed for pdflatex; or what has been declared
-	% via \DeclareGraphicsExtensions.
-	\caption{principio de funcionamiento oximetro de pulso \cite{physiobank} }.
-	
-	\label{imagen_ecg}
-\end{figure}
+
 
 
 
@@ -140,16 +131,18 @@ El presente artículo aborda la telemetría de la saturación de oxígeno con la
 \section{Materiales}
 
 {\color{blue}D}
-\newline
-MAX30102
-\newline
-OLED
-\newline
-ESP32
-\newline
-Servidor
-\newline
-PC
+Para adquirir la señales que permitan la medición de saturación parcial de oxígeno y de frecuencia cardíaca se hace uso del sensor MAX30102 que incluye los leds y fotodetectores descritos en la figura \ref{principio_funcionamiento} más elementos ópticos y electrónicos de bajo ruido. Las señales adquiridas por el sensor, y mostradas en la figura \ref{principio_funcionamiento} (pletimsografía en rojo e infrarrojo), son enviadas mediante interfaz I2C al módulo microcontrolado ESP32. Este módulo incluye la funcionalidad de conexión wifi para enviar la información procesada a un servidor web;  la información enviada se compone de  la señal de pletismografía de infrarrojo (señal que en términos generales se ve menos afectada por ruido), junto con los valores resultantes de saturación parcial de oxígeno y frecuencia cardíaca. Adicionalmente, la información es visualizada también en una pantalla OLED de 1.3'' gracias a la comunicación I2C con el módulo microcontrolado. En conjunto, estos elementos se presentan gráficamente en la figura \ref{materiales}.
+  
+
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=3in]{Materiales.png}
+	\caption{Materiales usados en la implementación.}
+	\label{materiales}
+\end{figure}
+
+
 
 %Para la evaluación de desempeño de los algoritmos de reconocimiento automático de patrones en la detección de fibrilación auricular en computador de placa reducida se propone el uso de la base de datos MIT-BIH AFIB (encontrada en \cite{physiobank}). Base de datos de uso generalizado en investigaciones afines y que contiene 23 registros de electrocardiografía de pacientes que presentan fibrilación auricular, con una frecuencia de muestreo de 250Hz, a una resolución de 12 bits y un rango de $+/-10mv$. Cada registro tiene una duración de 10 horas, en total se incluyen 291 episodios de fibrilación auricular con un tiempo promedio de 115 segundos, y 344 episodios de otros ritmos cardíacos \cite{wavelet_svm_afib}. Estos episodios se encuentran marcados, con anotaciones en tiempos específicos según revisiones previas de especialistas creadores de la base de datos; en la figura \ref{imagen_ecg} se representa un ejemplo de un archivo de la base de datos con la anotación respectiva en la medida que la señal cardíaca cambia llegando el segundo 5 de ritmo normal a ritmo con fibrilación auricular.
 
@@ -192,7 +185,7 @@ Descripción de firmware
 
 \begin{figure}[!h]
 	\centering
-	\includegraphics[width=1in]{DDescripción_firmware.png}
+	\includegraphics[width=1in]{Descripción_firmware.png}
 	\caption{Descripción de firmware}.
 	\label{estructura_general}
 \end{figure}
@@ -455,6 +448,7 @@ Descripción de plataforma
 
 \begin{figure}[!h]
 	\centering
+
 	\includegraphics[width=1in]{plataforma.png}
 	% where an .eps filename suffix will be assumed under latex, 
 	% and a .pdf suffix will be assumed for pdflatex; or what has been declared
