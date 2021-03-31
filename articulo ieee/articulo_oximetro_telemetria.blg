@@ -10,12 +10,12 @@ Reallocating 'singl_function' (item size: 4) to 100 items.
 Reallocating 'wiz_functions' (item size: 4) to 6000 items.
 Reallocating 'singl_function' (item size: 4) to 100 items.
 Database file #1: mis_referencias.bib
-I was expecting a `,' or a `}'---line 66 of file mis_referencias.bib
+I was expecting a `,' or a `}'---line 77 of file mis_referencias.bib
  :  
  :  file = {:C\:\\Users\\juan\\Desktop\\marco referencial\\literature_repository\\1 revista colombiana de cardiologia.pdf:PDF},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 92 of file mis_referencias.bib
+I was expecting a `,' or a `}'---line 103 of file mis_referencias.bib
  :  
  :  file = {:C\:\\Users\\juan\\Desktop\\marco referencial\\literature_repository\\2 utilidad monitor externo.pdf:PDF},
 (Error may have been on previous line)
@@ -31,37 +31,37 @@ Reallocating 'global_strs' (item size: 1) to 4000000 items.
 Done.
 You've used 7 entries,
             4783 wiz_defined-function locations,
-            980 strings with 9375 characters,
-and the built_in function-call counts, 5573 in all, are:
-= -- 475
-> -- 177
-< -- 37
-+ -- 87
-- -- 42
-* -- 308
-:= -- 897
+            979 strings with 9228 characters,
+and the built_in function-call counts, 5156 in all, are:
+= -- 461
+> -- 126
+< -- 35
++ -- 66
+- -- 28
+* -- 276
+:= -- 846
 add.period$ -- 14
 call.type$ -- 7
 change.case$ -- 12
-chr.to.int$ -- 78
+chr.to.int$ -- 72
 cite$ -- 7
-duplicate$ -- 370
-empty$ -- 406
-format.name$ -- 52
-if$ -- 1215
+duplicate$ -- 352
+empty$ -- 387
+format.name$ -- 38
+if$ -- 1123
 int.to.chr$ -- 2
 int.to.str$ -- 8
-missing$ -- 58
+missing$ -- 51
 newline$ -- 45
 num.names$ -- 21
-pop$ -- 152
+pop$ -- 129
 preamble$ -- 1
 purify$ -- 7
 quote$ -- 2
-skip$ -- 406
+skip$ -- 387
 stack$ -- 0
-substring$ -- 187
-swap$ -- 263
+substring$ -- 173
+swap$ -- 243
 text.length$ -- 9
 text.prefix$ -- 0
 top$ -- 6

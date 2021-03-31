@@ -101,11 +101,11 @@ Autores
 
 \IEEEPARstart{S}{e}gún la Organización Mundial de la Salud, las enfermedades no transmisibles son la principal causa de muerte, en 2012 fueron las causantes del 68\% del total de las muertes registradas \cite{A_OMS_informe}. Y entre estas enfermedades, las respiratorias crónicas ocupan el tercer lugar de prevalencia después de las enfermedades cardiovasculares y el cáncer, el 80\% de estas muertes ocurren en países de ingresos bajos y medios  (A OMS prevención), \cite{A_OMS_prevencion}
 
-Los pacientes con enfermedades respiratorias crónicas se ven afectados en la cantidad de oxígeno en sangre por el reducido intercambio gaseoso alveolar. Para ellos, la medición de gases en sangre es el elemento principal en el diagnóstico y tratamiento \cite{A_webster_spo2}.  Al respecto, el oxímetro de pulso resulta ser la principal herramienta de uso clínico y de bajos costo que permite esta medición de manera no invasiva.
+Los pacientes con enfermedades respiratorias crónicas se ven afectados en la cantidad de oxígeno en sangre por el reducido intercambio gaseoso alveolar. Para ellos, la medición de gases en sangre es el elemento principal en el diagnóstico y tratamiento \cite{A_webster_spo2}.  Al respecto, el oxímetro de pulso resulta ser la principal herramienta de uso clínico y de bajo costo que permite esta medición de manera no invasiva.
 
 Por otro lado, el progresivo incremento de la expectativa de vida y de los riesgos asociados a enfermedades no transmisibles, enfatiza la importancia del cuidado de la salud en casa con la incorporación paulatina de diferentes tecnologías \cite{A_webster_home_care}. El objetivo es reducir el número de admisiones hospitalarias; permitiendo incluso, para la monitorización de signos vitales (como lo es la cantidad de oxígeno en sangre), el envío de información ininterrumpida a los profesionales de la salud. Este telemonitoreo permitirá evitar los errores de lectura y trascripción de los métodos actuales, como el de conexión de voz; y conllevará  a la incorporación de aplicaciones escalables en materia de alarmas automáticas e inteligencia artificial dada la cantidad de datos involucrada \cite{A_telemedicina}.
 
-Desarrollar una herramienta tecnológica que permita el telemonitoreo de la cantidad de oxígeno en sangre implica abordar elementos propios de oximetría de pulso y de incorporación de aplicaciones que hacen uso de internet para garantizar la monitorización remota. Con respecto a la oximetría de pulso, se trata de hacer incidir una luz roja e infraroja (con diodos emisores de luz) sobre una estructura corporal y realizar la medición de la luz transmitida o reflejada en ambas longitudes de onda haciendo uso de fotodetectores (como fotodiodos). Dado el nivel de absorbancia diferenciado entre hemoglobina oxigenada y sin oxigenar para cada una de las longitudes de onda, es posible determinar el porcentaje de oxígeno en sangre como se indica en la figura \ref{principio_funcionamiento}, esto se logra con herramientas de procesamiento de señales para estimar características de las señales correspondientes a la lectura del fotodiodo.  Adicionalmente, con el oxímetro de pulso, por leer señales de voltaje pulsátiles (según el pulso del paciente), es factible realizar la medición de frecuencia cardíaca. Como resultado, después del procesamiento de la información,  los datos monitorizados en oximetría de pulso se componen de la siguiente información: porcentaje de saturación de oxígeno, frecuencia cardíaca y señal pletismográfica.
+Desarrollar una herramienta tecnológica que permita el telemonitoreo de la cantidad de oxígeno en sangre implica abordar elementos propios de oximetría de pulso y de incorporación de aplicaciones que hacen uso de internet para garantizar la monitorización remota. Con respecto a la oximetría de pulso, se trata de hacer incidir una luz roja e infraroja (con diodos emisores de luz) sobre una estructura corporal y realizar la medición de la luz transmitida o reflejada en ambas longitudes de onda haciendo uso de fotodetectores (como fotodiodos). Dado el nivel de absorbancia diferencial entre hemoglobina oxigenada y sin oxigenar para cada una de las longitudes de onda, es posible determinar el porcentaje de oxígeno en sangre a partir de las señales leidas por el fotodetector (como  las que se indican en la figura \ref{principio_funcionamiento}), esto se logra con herramientas de procesamiento de señales para estimar características de las señales adquiridas.  Adicionalmente, con el oxímetro de pulso, por leer señales de voltaje pulsátiles (según el pulso del paciente), es factible realizar la medición de frecuencia cardíaca. Como resultado, después del procesamiento de la información,  los datos monitorizados en oximetría de pulso se componen de la siguiente información: porcentaje de saturación de oxígeno, frecuencia cardíaca y señales pletismográficas.
 
 \begin{figure}[!h]
 	\centering
@@ -115,7 +115,7 @@ Desarrollar una herramienta tecnológica que permita el telemonitoreo de la cant
 \end{figure}
 
 
-En cuanto al telemonitoreo de estas variables, internet permite incorporar diferentes herramientas de software que logran enviar la información a servidores web y permiten su visualización en diferentes dispositivos.  Estas aplicaciones se pueden dividir en dos tipos principales: la aplicación que recibe la información del elemento sensor (en este caso el oxímetro de pulso) y que permite acceder a la base de datos; y la aplicación que permite la visualización de la información por parte del cliente.
+En cuanto al telemonitoreo de estas variables, internet permite incorporar diferentes herramientas de software que envian la información a servidores web y permiten su visualización en diferentes dispositivos.  Estas aplicaciones se pueden dividir en dos partes: la aplicación que recibe la información del elemento sensor (en este caso el oxímetro de pulso) y que permite acceder a la base de datos; y la aplicación que permite la visualización de la información por parte del cliente.
 
 El presente artículo aborda la telemetría de la saturación de oxígeno con la respectiva evaluación de resultados en perspectiva de aplicaciones futuras en telemedicina. En la sección 2 se presentan los elementos usados para la elaboración del oxímetro de pulso, envío y recepción de información; en la sección 3 se presenta la implementación de herramientas de procesamiento de señales para la medición de saturación de oxígeno y frecuencia cardíaca, así como el diseño del software asociado a la aplicacion web; en la sección 3 se exponen los resultados obtenidos de la aplicación en conjunto; para finalizar con las conclusiones  de la implementación desarrollada en la sección 5.
 
@@ -131,7 +131,7 @@ El presente artículo aborda la telemetría de la saturación de oxígeno con la
 \section{Materiales}
 
 {\color{blue}D}
-Para adquirir la señales que permitan la medición de saturación parcial de oxígeno y de frecuencia cardíaca se hace uso del sensor MAX30102 que incluye los leds y fotodetectores descritos en la figura \ref{principio_funcionamiento} más elementos ópticos y electrónicos de bajo ruido. Las señales adquiridas por el sensor, y mostradas en la figura \ref{principio_funcionamiento} (pletimsografía en rojo e infrarrojo), son enviadas mediante interfaz I2C al módulo microcontrolado ESP32. Este módulo incluye la funcionalidad de conexión wifi para enviar la información procesada a un servidor web;  la información enviada se compone de  la señal de pletismografía de infrarrojo (señal que en términos generales se ve menos afectada por ruido), junto con los valores resultantes de saturación parcial de oxígeno y frecuencia cardíaca. Adicionalmente, la información es visualizada también en una pantalla OLED de 1.3'' gracias a la comunicación I2C con el módulo microcontrolado. En conjunto, estos elementos se presentan gráficamente en la figura \ref{materiales}.
+Para adquirir la señales que permitan la medición de saturación parcial de oxígeno y de frecuencia cardíaca se hace uso del módulo sensor con referencia MAX30102 que incluye los leds y fotodetectores descritos en la figura \ref{principio_funcionamiento} más elementos ópticos y electrónicos de bajo ruido. Las señales adquiridas por el sensor, y mostradas en la figura \ref{principio_funcionamiento} (pletimsografía en rojo e infrarrojo), son enviadas mediante interfaz I2C a un  módulo microcontrolado de referencia ESP32. Este módulo incluye la funcionalidad de conexión wifi para enviar la información procesada a un servidor web;  la información enviada se compone de  la señal de pletismografía de infrarrojo (señal que en términos generales se ve menos afectada por ruido), junto con los valores resultantes de saturación parcial de oxígeno y frecuencia cardíaca. Adicionalmente, la información es visualizada también en una pantalla OLED de 1.3'' dada a la comunicación I2C con el módulo microcontrolado. En conjunto, estos elementos se presentan gráficamente en la figura \ref{materiales}.
   
 
 
@@ -164,10 +164,29 @@ Para adquirir la señales que permitan la medición de saturación parcial de ox
 
 \section{Métodos}
 
-Descripción de estructura general del proytecto
-\newline 
 
-{\color{blue}E}
+{\color{blue}B E}
+
+
+La temería de la saturación de oxígeno en sangre y la frecuencia cardíaca implica, en primera instancia, la adquisición de las señales de pletismografía en rojo e infrarrojo presentadas de manera conceptual en la figura \ref{principio_funcionamiento}, estas señales entregadas por el módulo sensor MAX30102 son leídas por el módulo microcontrolado ESP32 para que una vez procesadas se realice el envío de la información al servidor. A continuación se presentan los métodos asociados al módulo microcontrolador (adquisición, procesamiento y envío de la información al servidor), posteriormente se presentan los métodos relacionados con el servidor (recepción de la información y su visualización en aplicación web).
+
+\subsection{Adquisición, procesamiento y envío de información.}
+A las señales en rojo e infrarrojo leídas por el módulo ESP32, después del filtrado digital adecuado, se les pueden extraer ciertas características simples a utilizar en el cálculo de la saturación de oxígeno. El valor R determina la relación normalizada entre la señal en rojo versus la señal en infrarrojo (ver ecuación \ref{ecuación_R} y figura \ref{principio_funcionamiento}) y con este valor se puede estimar la saturación de oxígeno mediante la aproximación lineal que se presenta en la ecuación 2 \cite{E_FFT_Spo2}. 
+
+\begin{equation}
+	R=\frac{AC_{rojo}/DC_{rojo}}{AC_{infrarrojo}/DC_{infrarrojo}}
+	\label{ecuación_R}
+\end{equation}
+
+\begin{equation}
+	SpO_2 = 110-25R
+	\label{ecuación_SpO2}
+\end{equation}
+
+
+El problema principal radica en realizar al tratamiento adecuado de señales para obtener un valor R dependiente sólo de la saturación arterial de oxígeno del paciente. Paralelo a esta medición se puede estimar la frecuencia cardíaca (de la señal en infrarrojo); para así realizar el envío de la información al servidor. 
+
+
 
 \begin{figure}[!h]
 	\centering
@@ -175,8 +194,6 @@ Descripción de estructura general del proytecto
 	\caption{Esquema general}.
 	\label{estructura_general}
 \end{figure}
-
-\subsection{Embebido}
 
 Descripción de hardware
 
@@ -192,7 +209,7 @@ Descripción de firmware
 
 
 
-{\color{blue}F}
+{\color{blue}B F}
 
 
 \subsection{Telemetría}
@@ -426,9 +443,9 @@ Descripción de aplicacion web
 
 
 
-{\color{blue}G}
-\section{Resultados}
 
+\section{Resultados}
+{\color{blue}G}
 Descripción del montaje funcional
 
 

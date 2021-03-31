@@ -51,11 +51,9 @@ G.~Murias, B.~Sales, O.~Garc{\'\i}a-Esquirol, and L.~Blanch, ``Telemedicina:
 H.~Lee, H.~Ko, and J.~Lee, ``Reflectance pulse oximetry: Practical issues and
   limitations,'' \emph{Ict Express}, vol.~2, no.~4, pp. 195--198, 2016.
 
-\bibitem[Goldberger et~al.(2000)Goldberger, Amaral, Glass, Hausdorff, Ivanov,
-  Mark, Mietus, Moody, Peng, and Stanley]{physiobank}
-A.~L. Goldberger, L.~A. Amaral, L.~Glass, J.~M. Hausdorff, P.~C. Ivanov, R.~G.
-  Mark, J.~E. Mietus, G.~B. Moody, C.-K. Peng, and H.~E. Stanley, ``Physiobank,
-  physiotoolkit, and physionet,'' \emph{Circulation}, vol. 101, no.~23, pp.
-  e215--e220, 2000.
+\bibitem[Rusch et~al.(1996)Rusch, Sankar, and Scharf]{E_FFT_Spo2}
+T.~Rusch, R.~Sankar, and J.~Scharf, ``Signal processing methods for pulse
+  oximetry,'' \emph{Computers in biology and medicine}, vol.~26, no.~2, pp.
+  143--159, 1996.
 
 \end{thebibliography}
