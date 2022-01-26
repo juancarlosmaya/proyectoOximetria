@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.6.29) (preloaded format=pdflatex 2020.9.8)  31 MAR 2021 12:46
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.6.29) (preloaded format=pdflatex 2020.9.8)  25 JAN 2022 18:34
 entering extended mode
 **./articulo_oximetro_telemetria.tex
 (articulo_oximetro_telemetria.tex
@@ -237,33 +237,23 @@ File: l3backend-pdfmode.def 2020-06-29 L3 backend support: PDF mode
 (articulo_oximetro_telemetria.aux
 LaTeX Info: Redefining \. on input line 15.
 LaTeX Info: Redefining \% on input line 15.
-
-
-LaTeX Warning: Label `estructura_general' multiply defined.
-
-
-LaTeX Warning: Label `montaje_generador_rpi' multiply defined.
-
-
-LaTeX Warning: Label `montaje_generador_rpi' multiply defined.
-
 )
 \openout1 = `articulo_oximetro_telemetria.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 80.
-LaTeX Font Info:    ... okay on input line 80.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 80.
-LaTeX Font Info:    ... okay on input line 80.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 80.
-LaTeX Font Info:    ... okay on input line 80.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 80.
-LaTeX Font Info:    ... okay on input line 80.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 80.
-LaTeX Font Info:    ... okay on input line 80.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 80.
-LaTeX Font Info:    ... okay on input line 80.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 80.
-LaTeX Font Info:    ... okay on input line 80.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
 
 -- Lines per column: 58 (exact).
 ("C:\Program Files\MiKTeX\tex/context/base/mkii\supp-pdf.mkii"
@@ -318,19 +308,23 @@ Package grfext Info: Graphics extension search list:
 G,.JBIG2,.JB2,.eps]
 (grfext)             \AppendGraphicsExtensions on input line 504.
 )
-LaTeX Info: Redefining \. on input line 80.
-LaTeX Info: Redefining \% on input line 80.
+LaTeX Info: Redefining \. on input line 85.
+LaTeX Info: Redefining \% on input line 85.
 
 ** WARNING: \and is valid only when in conference or peerreviewca
-modes (line 82).
+modes (line 87).
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 102.
+(Font)              <9> on input line 92.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 102.
+(Font)              <6> on input line 92.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 92.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 108.
 <principio_funcionamiento.png, id=1, 614.295pt x 481.8pt>
 File: principio_funcionamiento.png Graphic file (type png)
 <use principio_funcionamiento.png>
-Package pdftex.def Info: principio_funcionamiento.png  used on input line 112.
+Package pdftex.def Info: principio_funcionamiento.png  used on input line 119.
 (pdftex.def)             Requested size: 216.81pt x 170.04404pt.
 [1{C:/Users/JUAN CARLOS/AppData/Local/MiKTeX/pdftex/config/pdftex.map}
 
@@ -339,82 +333,62 @@ Package pdftex.def Info: principio_funcionamiento.png  used on input line 112.
 <Materiales.png, id=9, 976.39781pt x 579.66562pt>
 File: Materiales.png Graphic file (type png)
 <use Materiales.png>
-Package pdftex.def Info: Materiales.png  used on input line 140.
+Package pdftex.def Info: Materiales.png  used on input line 147.
 (pdftex.def)             Requested size: 216.81pt x 128.71205pt.
-<Esquema general.png, id=11, 593.21625pt x 429.10312pt>
-File: Esquema general.png Graphic file (type png)
-<use Esquema general.png>
-Package pdftex.def Info: Esquema general.png  used on input line 193.
-(pdftex.def)             Requested size: 72.26999pt x 52.27585pt.
-<Descripción_firmware.png, id=12, 1090.82532pt x 671.50874pt>
-File: Descripción_firmware.png Graphic file (type png)
-<use Descripción_firmware.png>
-Package pdftex.def Info: Descripción_firmware.png  used on input line 205.
-(pdftex.def)             Requested size: 72.26999pt x 44.47955pt.
+<diagrama_flujo.png, id=11, 304.88907pt x 499.11469pt>
+File: diagrama_flujo.png Graphic file (type png)
+<use diagrama_flujo.png>
+Package pdftex.def Info: diagrama_flujo.png  used on input line 201.
+(pdftex.def)             Requested size: 252.94499pt x 414.09752pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 216--218
-
+Overfull \hbox (0.94499pt too wide) in paragraph at lines 201--202
+ [][] 
  []
 
-<montaje_final.png, id=13, 599.46063pt x 433.62pt>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[2 <./Materiales.png>]
+<resultado_python_real.png, id=22, 709.90219pt x 542.025pt>
+File: resultado_python_real.png Graphic file (type png)
+<use resultado_python_real.png>
+Package pdftex.def Info: resultado_python_real.png  used on input line 227.
+(pdftex.def)             Requested size: 180.67499pt x 137.94574pt.
+<montaje_final.png, id=23, 599.46063pt x 433.62pt>
 File: montaje_final.png Graphic file (type png)
 <use montaje_final.png>
-Package pdftex.def Info: montaje_final.png  used on input line 455.
-(pdftex.def)             Requested size: 216.81pt x 156.83089pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-<plataforma.png, id=14, 593.21625pt x 429.10312pt>
-File: plataforma.png Graphic file (type png)
-<use plataforma.png>
-Package pdftex.def Info: plataforma.png  used on input line 469.
-(pdftex.def)             Requested size: 72.26999pt x 52.27585pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-<Validacion_resultados.png, id=15, 593.21625pt x 429.10312pt>
-File: Validacion_resultados.png Graphic file (type png)
-<use Validacion_resultados.png>
-Package pdftex.def Info: Validacion_resultados.png  used on input line 479.
-(pdftex.def)             Requested size: 72.26999pt x 52.27585pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 498.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 498.
-(articulo_oximetro_telemetria.bbl [2 <./Materiales.png> <./Esquema general.png>
- <./Descripción_firmware.png>]) [3
-
- <./montaje_final.png> <./plataforma.png> <./Validacion_resultados.png>] (artic
+Package pdftex.def Info: montaje_final.png  used on input line 237.
+(pdftex.def)             Requested size: 180.67499pt x 130.6891pt.
+ [3 <./diagrama_flujo.png> <./resultado_python_real.png> <./montaje_final.png>]
+<resultado_aplicacion_web.png, id=30, 963.6pt x 429.897pt>
+File: resultado_aplicacion_web.png Graphic file (type png)
+<use resultado_aplicacion_web.png>
+Package pdftex.def Info: resultado_aplicacion_web.png  used on input line 263.
+(pdftex.def)             Requested size: 216.81pt x 96.72264pt.
+ (articulo_oximetro_telemetria.bbl) [4 <./resultado_aplicacion_web.png>] (artic
 ulo_oximetro_telemetria.aux
 LaTeX Info: Redefining \. on input line 15.
 LaTeX Info: Redefining \% on input line 15.
-)
-
-LaTeX Warning: There were multiply-defined labels.
-
- ) 
+) ) 
 Here is how much of TeX's memory you used:
- 4332 strings out of 480790
- 67483 string characters out of 2907036
- 334274 words of memory out of 3000000
- 20276 multiletter control sequences out of 15000+200000
- 569582 words of font info for 85 fonts, out of 3000000 for 9000
+ 4359 strings out of 480790
+ 68354 string characters out of 2907036
+ 337530 words of memory out of 3000000
+ 20306 multiletter control sequences out of 15000+200000
+ 566751 words of font info for 82 fonts, out of 3000000 for 9000
  1144 hyphenation exceptions out of 8191
- 34i,10n,35p,1461b,361s stack positions out of 5000i,500n,10000p,200000b,50000s
-{C:/Program Files/MiKTeX/fonts/enc/dvips/base/8r.enc}<C:/Program Files/MiKTeX
-/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX/fonts/type1
-/public/amsfonts/cm/cmmi7.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfo
-nts/cm/cmr10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.p
-fb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Progr
-am Files/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX/fonts
-/type1/urw/times/utmbi8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utm
-r8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on articulo_oximetro_telemetria.pdf (3 pages, 1505556 bytes).
+ 34i,6n,35p,1461b,361s stack positions out of 5000i,500n,10000p,200000b,50000s
+{C:/Program Files/MiKTeX/fonts/enc/dvips/base/8r.enc}<C:/Program Files/MiKTe
+X/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX/fonts/type
+1/public/amsfonts/cm/cmmi7.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsf
+onts/cm/cmr10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.
+pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Prog
+ram Files/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX/font
+s/type1/urw/times/utmbi8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/ut
+mr8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
+Output written on articulo_oximetro_telemetria.pdf (4 pages, 4405989 bytes).
 PDF statistics:
- 63 PDF objects out of 1000 (max. 8388607)
+ 64 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 36 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 31 words of extra memory for PDF output out of 10000 (max. 10000000)
 

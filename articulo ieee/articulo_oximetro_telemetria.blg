@@ -10,12 +10,16 @@ Reallocating 'singl_function' (item size: 4) to 100 items.
 Reallocating 'wiz_functions' (item size: 4) to 6000 items.
 Reallocating 'singl_function' (item size: 4) to 100 items.
 Database file #1: mis_referencias.bib
-I was expecting a `,' or a `}'---line 77 of file mis_referencias.bib
+Repeated entry---line 85 of file mis_referencias.bib
+ : @article{E_FFT_Spo2
+ :                    ,
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 154 of file mis_referencias.bib
  :  
  :  file = {:C\:\\Users\\juan\\Desktop\\marco referencial\\literature_repository\\1 revista colombiana de cardiologia.pdf:PDF},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 103 of file mis_referencias.bib
+I was expecting a `,' or a `}'---line 180 of file mis_referencias.bib
  :  
  :  file = {:C\:\\Users\\juan\\Desktop\\marco referencial\\literature_repository\\2 utilidad monitor externo.pdf:PDF},
 (Error may have been on previous line)
@@ -27,47 +31,48 @@ I'm skipping whatever remains of this entry
 Reallocating 'glb_str_end' (item size: 4) to 20 items.
 Reallocating 'glb_str_ptr' (item size: 4) to 20 items.
 Reallocating 'global_strs' (item size: 1) to 4000000 items.
+Warning--empty year in E_psd_ppg
 
 Done.
-You've used 7 entries,
+You've used 15 entries,
             4783 wiz_defined-function locations,
-            979 strings with 9228 characters,
-and the built_in function-call counts, 5156 in all, are:
-= -- 461
-> -- 126
-< -- 35
-+ -- 66
-- -- 28
-* -- 276
-:= -- 846
-add.period$ -- 14
-call.type$ -- 7
-change.case$ -- 12
-chr.to.int$ -- 72
-cite$ -- 7
-duplicate$ -- 352
-empty$ -- 387
-format.name$ -- 38
-if$ -- 1123
+            1024 strings with 10870 characters,
+and the built_in function-call counts, 10548 in all, are:
+= -- 914
+> -- 259
+< -- 65
++ -- 135
+- -- 58
+* -- 534
+:= -- 1686
+add.period$ -- 33
+call.type$ -- 15
+change.case$ -- 25
+chr.to.int$ -- 146
+cite$ -- 16
+duplicate$ -- 733
+empty$ -- 880
+format.name$ -- 79
+if$ -- 2340
 int.to.chr$ -- 2
-int.to.str$ -- 8
-missing$ -- 51
-newline$ -- 45
-num.names$ -- 21
-pop$ -- 129
+int.to.str$ -- 16
+missing$ -- 107
+newline$ -- 69
+num.names$ -- 45
+pop$ -- 303
 preamble$ -- 1
-purify$ -- 7
+purify$ -- 15
 quote$ -- 2
-skip$ -- 387
+skip$ -- 798
 stack$ -- 0
-substring$ -- 173
-swap$ -- 243
-text.length$ -- 9
+substring$ -- 348
+swap$ -- 472
+text.length$ -- 12
 text.prefix$ -- 0
 top$ -- 6
-type$ -- 96
-warning$ -- 0
-while$ -- 26
+type$ -- 200
+warning$ -- 1
+while$ -- 54
 width$ -- 0
-write$ -- 100
-(There were 2 error messages)
+write$ -- 179
+(There were 3 error messages)

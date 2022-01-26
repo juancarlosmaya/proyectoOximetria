@@ -164,7 +164,7 @@ void setup() {
 
 
     // CONFIGURACIÓN ENVÍO DE DATOS A SERVIDOR
-    WiFiMulti.addAP("ERAZO", "sofia108516#"); // poner aquí clave y contraseña wifi
+    WiFiMulti.addAP("ERAZO", "tommy1505"); // poner aquí clave y contraseña wifi
     Serial.print("Esperano conexión WIFI");
     while(WiFiMulti.run() != WL_CONNECTED) {
         Serial.print(".");
