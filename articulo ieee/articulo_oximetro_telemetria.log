@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.6.29) (preloaded format=pdflatex 2020.9.8)  25 JAN 2022 18:34
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.6.29) (preloaded format=pdflatex 2020.9.8)  4 MAR 2022 16:55
 entering extended mode
 **./articulo_oximetro_telemetria.tex
 (articulo_oximetro_telemetria.tex
@@ -349,46 +349,68 @@ Overfull \hbox (0.94499pt too wide) in paragraph at lines 201--202
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [2 <./Materiales.png>]
-<resultado_python_real.png, id=22, 709.90219pt x 542.025pt>
+<resultado_python_real.png, id=27, 709.90219pt x 542.025pt>
 File: resultado_python_real.png Graphic file (type png)
 <use resultado_python_real.png>
-Package pdftex.def Info: resultado_python_real.png  used on input line 227.
+Package pdftex.def Info: resultado_python_real.png  used on input line 245.
 (pdftex.def)             Requested size: 180.67499pt x 137.94574pt.
-<montaje_final.png, id=23, 599.46063pt x 433.62pt>
+<montaje_final.png, id=28, 599.46063pt x 433.62pt>
 File: montaje_final.png Graphic file (type png)
 <use montaje_final.png>
-Package pdftex.def Info: montaje_final.png  used on input line 237.
+Package pdftex.def Info: montaje_final.png  used on input line 255.
 (pdftex.def)             Requested size: 180.67499pt x 130.6891pt.
- [3 <./diagrama_flujo.png> <./resultado_python_real.png> <./montaje_final.png>]
-<resultado_aplicacion_web.png, id=30, 963.6pt x 429.897pt>
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[3 <./diagrama_flujo.png> <./resultado_python_real.png>]
+<resultado_aplicacion_web.png, id=34, 390.696pt x 314.703pt>
 File: resultado_aplicacion_web.png Graphic file (type png)
 <use resultado_aplicacion_web.png>
-Package pdftex.def Info: resultado_aplicacion_web.png  used on input line 263.
-(pdftex.def)             Requested size: 216.81pt x 96.72264pt.
- (articulo_oximetro_telemetria.bbl) [4 <./resultado_aplicacion_web.png>] (artic
-ulo_oximetro_telemetria.aux
+Package pdftex.def Info: resultado_aplicacion_web.png  used on input line 281.
+(pdftex.def)             Requested size: 252.94499pt x 203.74779pt.
+
+Overfull \hbox (0.94499pt too wide) in paragraph at lines 281--284
+ [][] 
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+(articulo_oximetro_telemetria.bbl [4
+
+pdfTeX warning: pdflatex.exe: pop empty color page stack 0
+ <./montaje_final.png> <./resultado_aplicacion_web.png>]) [5
+
+]
+(articulo_oximetro_telemetria.aux
 LaTeX Info: Redefining \. on input line 15.
 LaTeX Info: Redefining \% on input line 15.
 ) ) 
 Here is how much of TeX's memory you used:
- 4359 strings out of 480790
- 68354 string characters out of 2907036
- 337530 words of memory out of 3000000
- 20306 multiletter control sequences out of 15000+200000
+ 4371 strings out of 480790
+ 68649 string characters out of 2907036
+ 336669 words of memory out of 3000000
+ 20318 multiletter control sequences out of 15000+200000
  566751 words of font info for 82 fonts, out of 3000000 for 9000
  1144 hyphenation exceptions out of 8191
- 34i,6n,35p,1461b,361s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 34i,7n,35p,1462b,361s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files/MiKTeX/fonts/enc/dvips/base/8r.enc}<C:/Program Files/MiKTe
-X/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX/fonts/type
-1/public/amsfonts/cm/cmmi7.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsf
-onts/cm/cmr10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.
-pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Prog
-ram Files/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX/font
-s/type1/urw/times/utmbi8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/ut
-mr8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on articulo_oximetro_telemetria.pdf (4 pages, 4405989 bytes).
+X/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Program Files/MiKTeX/fonts/type
+1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/ams
+fonts/cm/cmmi5.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi
+7.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Pro
+gram Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Program Files/MiK
+TeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Program Files/MiKTeX/fonts/type
+1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/ams
+fonts/cm/cmsy5.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy
+7.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Program Fil
+es/MiKTeX/fonts/type1/urw/times/utmbi8a.pfb><C:/Program Files/MiKTeX/fonts/type
+1/urw/times/utmr8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmri8a.p
+fb>
+Output written on articulo_oximetro_telemetria.pdf (5 pages, 2713112 bytes).
 PDF statistics:
- 64 PDF objects out of 1000 (max. 8388607)
+ 87 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  31 words of extra memory for PDF output out of 10000 (max. 10000000)
 

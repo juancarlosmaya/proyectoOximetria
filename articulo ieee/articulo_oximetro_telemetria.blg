@@ -14,12 +14,12 @@ Repeated entry---line 85 of file mis_referencias.bib
  : @article{E_FFT_Spo2
  :                    ,
 I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 154 of file mis_referencias.bib
+I was expecting a `,' or a `}'---line 183 of file mis_referencias.bib
  :  
  :  file = {:C\:\\Users\\juan\\Desktop\\marco referencial\\literature_repository\\1 revista colombiana de cardiologia.pdf:PDF},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 180 of file mis_referencias.bib
+I was expecting a `,' or a `}'---line 209 of file mis_referencias.bib
  :  
  :  file = {:C\:\\Users\\juan\\Desktop\\marco referencial\\literature_repository\\2 utilidad monitor externo.pdf:PDF},
 (Error may have been on previous line)
@@ -34,45 +34,45 @@ Reallocating 'global_strs' (item size: 1) to 4000000 items.
 Warning--empty year in E_psd_ppg
 
 Done.
-You've used 15 entries,
+You've used 18 entries,
             4783 wiz_defined-function locations,
-            1024 strings with 10870 characters,
-and the built_in function-call counts, 10548 in all, are:
-= -- 914
-> -- 259
-< -- 65
-+ -- 135
-- -- 58
-* -- 534
-:= -- 1686
-add.period$ -- 33
-call.type$ -- 15
-change.case$ -- 25
-chr.to.int$ -- 146
-cite$ -- 16
-duplicate$ -- 733
-empty$ -- 880
-format.name$ -- 79
-if$ -- 2340
+            1045 strings with 11390 characters,
+and the built_in function-call counts, 12927 in all, are:
+= -- 1143
+> -- 322
+< -- 83
++ -- 167
+- -- 72
+* -- 661
+:= -- 2071
+add.period$ -- 39
+call.type$ -- 18
+change.case$ -- 31
+chr.to.int$ -- 179
+cite$ -- 19
+duplicate$ -- 899
+empty$ -- 1041
+format.name$ -- 100
+if$ -- 2865
 int.to.chr$ -- 2
-int.to.str$ -- 16
-missing$ -- 107
-newline$ -- 69
-num.names$ -- 45
-pop$ -- 303
+int.to.str$ -- 19
+missing$ -- 132
+newline$ -- 78
+num.names$ -- 54
+pop$ -- 357
 preamble$ -- 1
-purify$ -- 15
+purify$ -- 18
 quote$ -- 2
-skip$ -- 798
+skip$ -- 982
 stack$ -- 0
-substring$ -- 348
-swap$ -- 472
-text.length$ -- 12
+substring$ -- 427
+swap$ -- 593
+text.length$ -- 18
 text.prefix$ -- 0
 top$ -- 6
-type$ -- 200
+type$ -- 248
 warning$ -- 1
-while$ -- 54
+while$ -- 64
 width$ -- 0
-write$ -- 179
+write$ -- 215
 (There were 3 error messages)

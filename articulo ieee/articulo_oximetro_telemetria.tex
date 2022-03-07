@@ -25,7 +25,7 @@
 \author{
 Claudia Ideth Céspedes Vigoya \\ %\IEEEauthorblockN{some author afiliation}
 \and
-Juan Calos Maya Gonzalez
+Juan Carlos Maya Gonzalez
 \and
 
 Oscar Fernando Avilés Sánchez
@@ -112,7 +112,7 @@ Los pacientes con enfermedades respiratorias crónicas se ven afectados en la ca
 
 Por otro lado, el progresivo incremento de la expectativa de vida y de los riesgos asociados a enfermedades no transmisibles, enfatiza la importancia del cuidado de la salud en casa con la incorporación paulatina de diferentes tecnologías \cite{A_webster_home_care}. El objetivo es reducir el número de admisiones hospitalarias; permitiendo incluso, para la monitorización de signos vitales (como lo es la cantidad de oxígeno en sangre), el envío de información ininterrumpida a los profesionales de la salud. Este telemonitoreo permitirá evitar los errores de lectura y trascripción de los métodos actuales, como el de conexión de voz; y conllevará  a la incorporación de aplicaciones escalables en materia de alarmas automáticas e inteligencia artificial dada la cantidad de datos involucrada \cite{A_telemedicina}.
 
-Desarrollar una herramienta tecnológica que permita el telemonitoreo de la cantidad de oxígeno en sangre implica abordar elementos propios de oximetría de pulso y de incorporación de aplicaciones que hacen uso de internet para garantizar la monitorización remota. Con respecto a la oximetría de pulso, se trata de hacer incidir una luz roja e infraroja (con diodos emisores de luz) sobre una estructura corporal y realizar la medición de la luz transmitida o reflejada en ambas longitudes de onda haciendo uso de fotodetectores (como fotodiodos). Dado el nivel de absorbancia diferencial entre hemoglobina oxigenada y sin oxigenar para cada una de las longitudes de onda, es posible determinar el porcentaje de oxígeno en sangre a partir de las señales leidas por el fotodetector (como  las que se indican en la figura \ref{principio_funcionamiento}), esto se logra con herramientas de procesamiento de señales para estimar características de las señales adquiridas.  Adicionalmente, con el oxímetro de pulso, por leer señales de voltaje pulsátiles (según el pulso del paciente), es factible realizar la medición de frecuencia cardíaca. Como resultado, después del procesamiento de la información,  los datos monitorizados en oximetría de pulso se componen de la siguiente información: porcentaje de saturación de oxígeno, frecuencia cardíaca y señales pletismográficas.
+Desarrollar una herramienta tecnológica que permita el telemonitoreo de la cantidad de oxígeno en sangre implica abordar elementos propios de oximetría de pulso y de incorporación de aplicaciones que hacen uso de internet para garantizar la monitorización remota. Con respecto a la oximetría de pulso, se trata de hacer incidir una luz roja e infrarroja (con diodos emisores de luz) sobre una estructura corporal y realizar la medición de la luz transmitida o reflejada en ambas longitudes de onda haciendo uso de fotodetectores (como fotodiodos). Dado el nivel de absorbancia diferencial entre hemoglobina oxigenada y sin oxigenar para cada una de las longitudes de onda, es posible determinar el porcentaje de oxígeno en sangre a partir de las señales leidas por el fotodetector (como  las que se indican en la figura \ref{principio_funcionamiento}), esto se logra con herramientas de procesamiento de señales para estimar características de las señales adquiridas.  Adicionalmente, con el oxímetro de pulso, por leer señales de voltaje pulsátiles (según el pulso del paciente), es factible realizar la medición de frecuencia cardíaca. Como resultado, después del procesamiento de la información,  los datos monitorizados en oximetría de pulso se componen de la siguiente información: porcentaje de saturación de oxígeno, frecuencia cardíaca y señales pletismográficas.
 
 \begin{figure}[!h]
 	\centering
@@ -193,20 +193,32 @@ A las señales en rojo e infrarrojo leídas por el módulo ESP32, después del f
 
 El problema principal radica en realizar al tratamiento adecuado de señales para obtener un valor R dependiente sólo de la saturación arterial de oxígeno del paciente. Paralelo a esta medición se puede estimar la frecuencia cardíaca (de la señal en infrarrojo); para así realizar el envío de la información al servidor. 
 
-Con el módulo microcontrolado ESP32, dada la alta demanda de recursos computacionales, se abordó este problema mediante la implementación de tres tareas concurrentes que se describen en la figura \ref{Descripción_firmware}. Una tarea se destinó a la lectura de los datos almacenados en el sensor, con el acceso a los buffers de la señal infraroja y roja; adicionalmente, esta tarea permitió la actualización permanente de la intensidad de los led asociados, contrarrestando las fluctuacinoes en la cantidad de luz ambiental. Por otra parte, una tarea adicional se destinó al procesamiento de la señales adquiridas para aplicar la ecuación \ref{ecuación_R} y \ref{ecuación_SpO2}. Esta información es utilizada por la tarea 3 para ser enviada de manera organizada al servidor web.
+Con el módulo microcontrolado ESP32, dada la alta demanda de recursos computacionales, se abordó este problema mediante la implementación de tres tareas concurrentes que se describen en la figura \ref{Descripción_firmware}. Una tarea se destinó a la lectura de los datos almacenados en el sensor, con el acceso a los buffers de la señal infrarroja y roja; adicionalmente, esta tarea permitió la actualización permanente de la intensidad de los led asociados, contrarrestando las fluctuacinoes en la cantidad de luz ambiental. Por otra parte, una tarea adicional se destinó al procesamiento de la señales adquiridas para aplicar la ecuación \ref{ecuación_R} y \ref{ecuación_SpO2}. Esta información es utilizada por la tarea 3 para ser enviada de manera organizada al servidor web.
 
 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=3.5in]{diagrama_flujo.png}
-	\caption{Descripción de firmware. Las siglas IR corresponden a la abreviatura de infrarojo, mientras que R hace referencia a rojo}.
+	\caption{Descripción de firmware. Las siglas IR corresponden a la abreviatura de infrarrojo, mientras que R hace referencia a rojo}.
 	\label{Descripción_firmware}
 \end{figure}
 
 
 
-Para optimizar las lecturas realizadas por el sensor se siguieron las recomendaciones de configuración establecidas en \cite{E_Recomended_configurations_MAX30102_maxim} \cite{E_SNR_MAX30102}. Mientras que para el procesamiento de la señal se usaron las frecuencias de corte de filtrado y el método de calculo de valores AC y DC estudiado en \cite{E_FFT_Spo2}; para calcular los valores AC se implementó el cálculo de la densidad espectral de potencia, como se sugiere en \cite{E_psd_ppg}.
+Para optimizar las lecturas realizadas por el sensor se siguieron las recomendaciones de configuración establecidas en \cite{E_Recomended_configurations_MAX30102_maxim} y \cite{E_SNR_MAX30102}. {\color{green}Mientras que para el procesamiento de las señales se usaron las frecuencias de corte de filtrado de 0.5 Hz a 5 Hz para el posterior análisis en el dominio de la frecuencia \cite{E_FFT_Spo2}. Para calcular los valores AC se implementó el cálculo de la densidad espectral de potencia según las ecuaciones \ref{ecuación_DFT} y \ref{ecuación_PSD}, donde $x_{n}$ representa las $N=512$ muestras de la señal a una frecuencia de muestreo $fs=200$ Hz; el valor máximo de esta serie de datos representa el valor AC \cite{E_psd_ppg}.
 
+
+\begin{equation}
+	x_{k}=\sum_{n=0}^{N-1}x_{n}e^{\frac{-2j{\pi}kn}{N}}
+	\label{ecuación_DFT}
+\end{equation}	
+
+\begin{equation}
+	psd=\frac{|x_{k}|^2}{Nf_{s}}
+	\label{ecuación_PSD}
+\end{equation}
+	
+}
 
 \subsection{Telemetría}
 
@@ -219,13 +231,19 @@ En cuanto a la necesidad de visualizar de manera remota los resultados obtenidos
 
 \section{Resultados}
 {\color{blue}G}
-Para la implementación del sistema embebido propuesto, en primera instancia se realizó una aplicación de escritorio con código en Python en el IDE de Spyder, como se muestra en la figura \ref{resultado_python_real}. Esta aplicación, que realizó la adquisición y procesamiento en tiempo real de las señales con el módulo ESP32 como tarjea de adquisición de datos, permitió depurar el código relacionado al procesamiento de señales (filtrado, cálculo de densidad espectral de potencia y determinación de oximetría y frecuencia cardíaca), antes de su migración al sistema embebido. El desempeño de la aplicación de escritorio fue el adecuado en cuanto a la eliminación de ruido, procesamiento en tiempo real y resultados acordes con los signos vitales del usuario del dispositivo.
+Para la implementación del sistema embebido propuesto, en primera instancia se realizó una aplicación de escritorio con código en Python en el IDE de Spyder, como se muestra en la figura \ref{resultado_python_real}. Con esta aplicación se realizó la adquisición en tiempo real de las señales con el módulo ESP32 como tarjea de adquisición de datos, {\color{green} lo que permitió realizar una caracterización del sensor para el posterior procesamiento de la señales: 
+se obtuvo un acceso permanente a 20 muestras en las 32 posiciones de la memoria FIFO del sensor, quienes representan el muestreo de las señales a $200$ Hz en una resolución de 18 bits tanto para la señal roja e infrarroja, el rango de las señales leídas se encontró entre $6250$ nA a $11375$ nA en la configuración del conversor análogo digital a un máximo de $16384$ nA, en general la señal roja se caracterizó por presentar mayor ruido que la infrarroja, razón por la cual esta última es la usada para el cálculo de frecuencia cardíaca.
+ }
+ La apliación en Python permitió, adicionalmente, depurar el código relacionado con el procesamiento de señales (filtrado, cálculo de densidad espectral de potencia y determinación de oximetría y frecuencia cardíaca), antes de su migración al sistema embebido. {\color{green}Se encontraron variaciones en el valor máximo obtenido de la serie de datos de la densidad espectral de potencia tanto para señal roja e infrarroja para diferentes saturaciones parciales de oxígeno, en aplicación de la ecuación \ref{ecuación_R} y \ref{ecuación_SpO2}.}
+
+
+El desempeño de esta aplicación de escritorio fue el adecuado en cuanto a la eliminación de ruido, procesamiento en tiempo real y resultados acordes con los signos vitales del usuario del dispositivo.
 
 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=2.5in]{resultado_python_real.png}
-	\caption{Prueba funcional con aplicaciòn de escritorio en Python}
+	\caption{Prueba funcional con aplicación de escritorio en Python}
 	\label{resultado_python_real}
 \end{figure}
 
@@ -235,17 +253,17 @@ Una vez realizada la migración del código en Python a código en C++, se reali
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=2.5in]{montaje_final.png}
-	\caption{Montaje}
+	\caption{Implementación final}
 	\label{montaje_final}
 \end{figure}
 
-Con respecto a las mediciones para validar el funcionamiento del oxímetro en diferentes valores, si bien en el mercado existen dispositivos que comúnmente se conocen como simuladores, según \cite{G_There_is_no_such_thing_as_a_SpO2_simulator} los dispositivos actuales solo pueden interpretarse como emuladores que imitan, con elementos optoelectrónicos, las valores de transmitancia para ciertas marcas comerciales. Y si bien se tiene la posibilidad de configurar una nueva marca o hacer variaciones sobre las existentes, se trata de dispositivos diseñados para probar sensores transmisivos \cite{G_validacion_oximetro_texas_fluke} mas no reflectivos, como es el caso del sensor MAX30102.
+Con respecto a las mediciones para validar el funcionamiento del oxímetro en diferentes valores, si bien en el mercado existen dispositivos que comúnmente se conocen como simuladores, según \cite{G_There_is_no_such_thing_as_a_SpO2_simulator} los dispositivos actuales solo pueden interpretarse como emuladores que imitan, con elementos optoelectrónicos, las valores de transmitancia para ciertas marcas comerciales. Y si bien se tiene la posibilidad de configurar una nueva marca o hacer variaciones sobre las existentes, se trata de dispositivos diseñados para probar sensores transmisivos {\color{green}(como en los desarrollos planteados en \cite{G_oximetro_ijie} y \cite{G_validacion_oximetro_texas_fluke})},  mas no reflectivos, como es el caso del sensor MAX30102.
 
-Con el propósito de poner a prueba el sistema embebido en términos del estimativo de la saturación parcial de oxígeno, se realizó un comparativo con un oxímetro de pulso comercial de marca AccuMed modelo Cms-50d1; los resultados, que incluyeron la participación de 3 individuos en condiciones tanto normales, como de hipo e hiperventilaciòn, 
-%, se encuentran en la figura \ref{resultado_comparacion_oximetro}
-demostraron una correlación entre las dos variables de $r=0.87$ para saturaciones entre $88\%$ y $97\%$ (14 parejas de datos). 
+Con el propósito de poner a prueba el sistema embebido en términos del estimativo de la saturación parcial de oxígeno, se realizó un comparativo con un oxímetro de pulso comercial de marca AccuMed modelo Cms-50d1; {\color{green}los resultados, que incluyeron la participación de 3 personas adultas y quienes usaron de manera simultanea los sensores en sus dedos índices en condiciones tanto normales, como de hipo e hiperventilación, 
+demostraron una correlación entre las dos variables de $r=0.87$ para saturaciones entre $88\%$ y $97\%$,
+en cada persona se tomaron 12 datos en este rango, para un total de 36 parejas de datos.} 
 %Al respecto, existe una gran dificultad en la obtención de estos datos dado que se tienen tiempos de respuesta diferentes entre los dispositivos que se comparan. 
-En la medida que se observa una relación lineal entre las mediciones de los dos dispositivos, se espera un comportamiento similar en saturaciones más bajas, lo cual puede ser validado con la inhalación controlada de una mezcla pobre en oxígeno como se plantea en \cite{G_validacion_sensor_maxim}.
+En la medida que se observa una relación lineal entre las mediciones de los dos dispositivos, se espera un comportamiento similar en saturaciones más bajas, lo cual puede ser validado con la inhalación controlada de una mezcla pobre en oxígeno como se plantea en \cite{G_validacion_sensor_maxim}. {\color{green} Por otra parte, en \cite{G_revision_oximetro} se plantea, que la futura inclusión de otras longitudes de onda, aparte de asociada a la luz roja e infrarroja, puede ser una factor importante en la estimación exacta de la saturación parcial de oxígeno}.
 
 
 %\begin{figure}[!h]
@@ -256,12 +274,14 @@ En la medida que se observa una relación lineal entre las mediciones de los dos
 %\end{figure}
 
 
-Finalmente, en la figura \ref{resultado_aplicacion_web} se presenta la captura de pantalla del funcionamiento, en un explorador web, de la aplicación creada para el telemonitoreo. Se observó el despliegue en tiempo real tanto de la señal como de los valores de SPO2 y frecuencia cardíaca, lo que implica la posibilidad de monitorizar otros signos vitales e incluir herramientas computacionales adicionales en la misma plataforma.
+Finalmente, en la figura \ref{resultado_aplicacion_web} se presenta la captura de pantalla del funcionamiento, en un explorador web, de la aplicación creada para el telemonitoreo. Se observó el despliegue en tiempo real tanto de la señal como de los valores de SpO2 y frecuencia cardíaca, lo que implica la posibilidad de monitorizar otros signos vitales e incluir herramientas computacionales adicionales en la misma plataforma. {\color{green}Se requiere, en posteriores investigaciones, la aplicación del estándar ISO/IEEE 11073 para garantizar la interoperabilidad de dispositivo y maximizar la seguridad en el intercambio de información con el servidor, como se plantea en \cite{G_remote_monitoring.pdf}.}
 
 \begin{figure}[!h]
 	\centering
-	\includegraphics[width=3in]{resultado_aplicacion_web.png}
-	\caption{Prueba funcional de aplicación Web, la señal corresponde a la pletismografia en infrarojo; los recuadros en azul y rojo presentan el valor de SPO2 y la frecuencia cardíaca, respectivamente}
+	\includegraphics[width=3.5in]{resultado_aplicacion_web.png}
+	\caption{
+	\color{green}{		
+		Prueba funcional de aplicación Web, la señal corresponde a la pletismografia en infrarrojo; los recuadros en azul y rojo presentan el valor de SpO2 y la frecuencia cardíaca, respectivamente}}
 	\label{resultado_aplicacion_web}
 \end{figure}
 
@@ -301,7 +321,7 @@ La implementación de un sistema de telemonitoreo de oximetría de pulso requier
 
 Uno de los principales retos en el desarrollo de oxímetros de pulso se relaciona con el filtrado de las señales de pletismografìa; en la medida que de esto depende que el cálculo del valor R se relacione adecuadamente con la oximetría del usuario del dispositivo y en rechazo de artefactos propios del uso de los elementos optoelectrónicos involucrados. Es por ello que resulta conveniente utilizar de manera previa un computador personal como sistema de procesamiento de señales en tiempo real, para así realizar el diseño de filtros y de funciones del cálculo del valor R, y seguidamente realizar la migración de código al sistema embebido. Esto posibilita incluso explorar herramientas más robustas, como las de inteligencia artificial, para mejorar el desempeño de los algoritmos \cite{E_spo2_wrist_machine_learning}.
 
-El cálculo de la densidad espectral de potencia de las señales de pletismografìa, permite una adecuada estimación de las variables involucradas en el cálculo del valor R y la consecuente determinación correcta de la saturación parcial de oxígeno. El desempeño de estas funciones, en conjunto con los algoritmos implementados en el servidor web, dan cuenta de la posibilidad de integrar más signos vitales y usuarios de dispositivos para el telemonitoreo con miras al desarrollo de plataformas de telemedicina.
+El cálculo de la densidad espectral de potencia de las señales de pletismografìa permite una adecuada estimación de las variables involucradas en el cálculo del valor R y la consecuente determinación correcta de la saturación parcial de oxígeno. El desempeño de estas funciones, en conjunto con los algoritmos implementados en el servidor web, dan cuenta de la posibilidad de integrar más signos vitales y usuarios de dispositivos para el telemonitoreo con miras al desarrollo de plataformas de telemedicina.
 
 
 
